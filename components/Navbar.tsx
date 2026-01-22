@@ -5,8 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useSession, signOut } from 'next-auth/react'
 import { useTheme } from 'next-themes'
+import { usePathname } from 'next/navigation'
 import { Menu, X, Sun, Moon, User, LogOut, Settings } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -14,6 +14,7 @@ export default function Navbar() {
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     setMounted(true)
@@ -21,10 +22,13 @@ export default function Navbar() {
       setScrolled(window.scrollY > 50)
     }
     
-    const scrollListener = handleScroll
-    window.addEventListener('scroll', scrollListener, { passive: true })
-    return () => window.removeEventListener('scroll', scrollListener)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
 
   if (!mounted) return null
 
@@ -36,15 +40,11 @@ export default function Navbar() {
           : 'bg-transparent'
       }`}>
         <div className="flex justify-between items-center h-16 sm:h-20 relative">
-          {/* Logo - Responsive size */}
           <Link 
             href="/" 
             className="flex items-center flex-shrink-0 relative"
           >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="relative w-48 h-20 sm:w-72 sm:h-28 md:w-96 md:h-32 lg:w-[28rem] lg:h-36"
-            >
+            <div className="relative w-48 h-20 sm:w-72 sm:h-28 md:w-96 md:h-32 lg:w-[28rem] lg:h-36 hover:scale-105 transition-transform">
               <Image
                 src="/images/logol.png"
                 alt="High Vibes Logo"
@@ -53,12 +53,10 @@ export default function Navbar() {
                 priority
                 sizes="(max-width: 640px) 192px, (max-width: 768px) 288px, (max-width: 1024px) 384px, 448px"
               />
-            </motion.div>
+            </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4 lg:gap-6 relative">
-            {/* Navigation Links */}
             <div className="flex items-center space-x-6 lg:space-x-8">
               <Link
                 href="/destinations"
@@ -80,12 +78,9 @@ export default function Navbar() {
               </Link>
             </div>
             
-            {/* Divider */}
             <div className="h-6 w-px bg-gray-300 dark:bg-gray-700"></div>
 
-            {/* User Actions */}
             <div className="flex items-center gap-2 lg:gap-3">
-              {/* Theme Toggle */}
               <button
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -98,7 +93,6 @@ export default function Navbar() {
                 )}
               </button>
 
-              {/* User Menu */}
               {session ? (
                 <>
                   {session.user.role === 'ADMIN' && (
@@ -133,7 +127,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative"
@@ -150,79 +143,71 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Navigation */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 relative"
+      <div className={`md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 transition-all duration-200 overflow-hidden ${
+        isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+      }`}>
+        <div className="px-3 py-4 xs:px-4 xs:py-6 space-y-3 xs:space-y-4">
+          <Link
+            href="/destinations"
+            className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
+            onClick={() => setIsOpen(false)}
           >
-            <div className="px-3 py-4 xs:px-4 xs:py-6 space-y-3 xs:space-y-4">
-              <Link
-                href="/destinations"
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Destinos
-              </Link>
-              <Link
-                href="/properties"
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Fincas
-              </Link>
-              <Link
-                href="/about"
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
-                onClick={() => setIsOpen(false)}
-              >
-                Nosotros
-              </Link>
-              
-              {session ? (
-                <>
-                  {session.user.role === 'ADMIN' && (
-                    <Link
-                      href="/admin"
-                      className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Panel Admin
-                    </Link>
-                  )}
-                  <Link
-                    href="/profile"
-                    className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Mi Perfil
-                  </Link>
-                  <button
-                    onClick={() => {
-                      signOut()
-                      setIsOpen(false)
-                    }}
-                    className="w-full text-left py-2 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors font-medium"
-                  >
-                    Cerrar Sesión
-                  </button>
-                </>
-              ) : (
+            Destinos
+          </Link>
+          <Link
+            href="/properties"
+            className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
+            onClick={() => setIsOpen(false)}
+          >
+            Fincas
+          </Link>
+          <Link
+            href="/about"
+            className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
+            onClick={() => setIsOpen(false)}
+          >
+            Nosotros
+          </Link>
+          
+          {session ? (
+            <>
+              {session.user.role === 'ADMIN' && (
                 <Link
-                  href="/auth/signin"
-                  className="block w-full text-center btn-primary mt-2"
+                  href="/admin"
+                  className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
                   onClick={() => setIsOpen(false)}
                 >
-                  Iniciar Sesión
+                  Panel Admin
                 </Link>
               )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <Link
+                href="/profile"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Mi Perfil
+              </Link>
+              <button
+                onClick={() => {
+                  signOut()
+                  setIsOpen(false)
+                }}
+                className="w-full text-left py-2 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors font-medium"
+              >
+                Cerrar Sesión
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/auth/signin"
+              className="block w-full text-center btn-primary mt-2"
+              onClick={() => setIsOpen(false)}
+            >
+              Iniciar Sesión
+            </Link>
+          )}
+        </div>
+      </div>
     </nav>
   )
 }

@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Users, MapPin, Star } from 'lucide-react'
@@ -14,31 +13,23 @@ export default function FeaturedProperties({ properties }: FeaturedPropertiesPro
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-8 sm:mb-12"
-        >
+        <div className="text-center mb-8 sm:mb-12 animate-fade-in-up">
           <h2 className="section-title">Fincas Destacadas</h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mt-2 sm:mt-4 px-2">
             Experiencias premium seleccionadas especialmente para ti
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {properties.map((property, index) => (
-            <motion.div
+            <div
               key={property.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               <Link href={`/properties/${property.slug}`} className="block h-full">
                 <div className="card card-hover group h-full flex flex-col">
-                  {/* Image Container - Responsive height */}
+                  {/* Image Container */}
                   <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden rounded-t-xl sm:rounded-t-2xl w-full">
                     <Image
                       src={property.images[0] || '/images/placeholder.jpg'}
@@ -55,7 +46,7 @@ export default function FeaturedProperties({ properties }: FeaturedPropertiesPro
                     </div>
                   </div>
 
-                  {/* Content - Flex grow for consistent height */}
+                  {/* Content */}
                   <div className="p-3 sm:p-4 md:p-6 flex flex-col flex-1">
                     {/* Category */}
                     {property.category && (
@@ -110,7 +101,7 @@ export default function FeaturedProperties({ properties }: FeaturedPropertiesPro
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
-import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { Providers } from './providers'
+import ConditionalNavbar from '@/components/ConditionalNavbar'
 
 export const metadata: Metadata = {
   title: 'Antioquia High Vibes | Espacios para momentos inolvidables',
@@ -28,16 +28,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className="scroll-smooth">
+    <html lang="es" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        {/* Preconnect para optimizar recursos externos */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <style dangerouslySetInnerHTML={{__html: `:root { --font-poppins: system-ui, -apple-system, sans-serif; }`}} />
       </head>
-      <body className="bg-white dark:bg-gray-900 transition-colors duration-300">
+      <body suppressHydrationWarning className="bg-white dark:bg-gray-900 transition-colors duration-300">
         <Providers>
-          <Navbar />
+          <ConditionalNavbar />
           <main className="min-h-screen">
             {children}
           </main>

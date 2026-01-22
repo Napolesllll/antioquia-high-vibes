@@ -2,7 +2,6 @@ import { Metadata } from 'next'
 import { prisma } from '@/lib/prisma'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { ArrowLeft, MapPin, Package } from 'lucide-react'
 
 export const metadata: Metadata = {
