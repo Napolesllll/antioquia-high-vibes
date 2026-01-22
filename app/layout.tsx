@@ -33,11 +33,7 @@ export default function RootLayout({
         {/* Preconnect para optimizar recursos externos */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <style>{`
-          :root {
-            --font-poppins: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-          }
-        `}</style>
+        <style dangerouslySetInnerHTML={{__html: `:root { --font-poppins: system-ui, -apple-system, sans-serif; }`}} />
       </head>
       <body className="bg-white dark:bg-gray-900 transition-colors duration-300">
         <Providers>

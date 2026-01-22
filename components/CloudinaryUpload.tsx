@@ -40,8 +40,8 @@ export default function CloudinaryUpload({
           {({ open }) => (
             <button
               type="button"
-              onClick={() => open()}
-              disabled={isUploading}
+              onClick={() => open?.()}
+              disabled={isUploading || !open}
               className="w-full border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-primary-500 dark:hover:border-primary-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="flex flex-col items-center space-y-2">
