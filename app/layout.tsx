@@ -10,6 +10,7 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-poppins',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -21,6 +22,12 @@ export const metadata: Metadata = {
     description: 'Espacios para crear momentos inolvidables',
     type: 'website',
   },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
 }
 
 export default function RootLayout({
@@ -30,6 +37,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={poppins.variable}>
+      <head>
+        {/* Preconnect para optimizar recursos externos */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className="bg-white dark:bg-gray-900 transition-colors duration-300">
         <Providers>
           <Navbar />
@@ -39,6 +51,7 @@ export default function RootLayout({
           <Footer />
           <Toaster 
             position="top-right"
+            containerClassName="sm:right-4"
             toastOptions={{
               duration: 4000,
               style: {

@@ -9,6 +9,14 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        xs: '375px',
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1536px',
+      },
       colors: {
         primary: {
           50: '#f0fdf4',
@@ -77,6 +85,16 @@ const config: Config = {
           '0%': { backgroundPosition: '-1000px 0' },
           '100%': { backgroundPosition: '1000px 0' },
         },
+      },
+      spacing: {
+        safe: 'env(safe-area-inset-bottom)',
+      },
+      maxWidth: {
+        '7xl': '80rem',
+        '8xl': '88rem',
+      },
+      transitionDuration: {
+        '300': '300ms',
       },
     },
   },

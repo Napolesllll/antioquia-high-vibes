@@ -5,57 +5,140 @@
 @layer base {
   :root {
     --font-poppins: 'Poppins', sans-serif;
+    /* Optimizaciones de rendimiento */
+    --transition-duration: 300ms;
+    --transition-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   * {
     @apply border-gray-200 dark:border-gray-800;
   }
 
-  body {
-    @apply font-sans antialiased;
+  html {
+    scroll-behavior: smooth;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold;
+  body {
+    @apply font-sans antialiased;
+    /* Optimize rendering performance */
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Reduce CLS */
+    overflow-y: scroll;
+  }
+
+  /* Tipografía responsiva optimizada */
+  h1 {
+    @apply font-bold leading-tight;
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    @apply font-bold leading-snug;
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+    letter-spacing: -0.015em;
+  }
+
+  h3 {
+    @apply font-semibold leading-snug;
+    @apply text-xl sm:text-2xl md:text-3xl;
+    letter-spacing: -0.01em;
+  }
+
+  h4, h5, h6 {
+    @apply font-semibold leading-snug;
+  }
+
+  /* Optimizar párrafos para legibilidad */
+  p {
+    @apply leading-relaxed;
+    line-height: 1.625;
   }
 }
 
 @layer components {
+  /* Botones optimizados */
   .btn-primary {
-    @apply px-6 py-3 bg-gradient-tropical text-white font-medium rounded-lg 
-           hover:shadow-lg hover:scale-105 transition-all duration-300 
-           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    @apply px-4 sm:px-6 py-2 sm:py-3 bg-gradient-tropical text-white font-medium rounded-lg;
+    @apply hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    @apply transition-all;
+    /* Reducir repaints innecesarios */
+    will-change: box-shadow;
+    touch-action: manipulation;
+    /* Desactivar escala en mobile para mejor UX */
+    @apply sm:hover:scale-105 active:scale-95;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-primary {
+      @apply hover:scale-100 active:scale-100;
+    }
   }
 
   .btn-secondary {
-    @apply px-6 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white 
-           font-medium rounded-lg border-2 border-primary-500 
-           hover:bg-primary-50 dark:hover:bg-gray-700 hover:scale-105 
-           transition-all duration-300 focus:outline-none focus:ring-2 
-           focus:ring-primary-500 focus:ring-offset-2;
+    @apply px-4 sm:px-6 py-2 sm:py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white;
+    @apply font-medium rounded-lg border-2 border-primary-500;
+    @apply hover:bg-primary-50 dark:hover:bg-gray-700;
+    @apply transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    will-change: background-color;
+    touch-action: manipulation;
+    @apply sm:hover:scale-105 active:scale-95;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .btn-secondary {
+      @apply hover:scale-100 active:scale-100;
+    }
+  }
+
+  /* Tarjetas optimizadas */
   .card {
-    @apply bg-white dark:bg-gray-800 rounded-2xl shadow-lg 
-           hover:shadow-2xl transition-all duration-300 overflow-hidden;
+    @apply bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg;
+    @apply hover:shadow-2xl transition-shadow overflow-hidden;
+    will-change: box-shadow;
+    /* Evitar layout shift */
+    contain: layout style paint;
   }
 
   .card-hover {
-    @apply hover:scale-105 hover:-translate-y-2 cursor-pointer;
+    @apply cursor-pointer;
+    @apply sm:hover:scale-105 sm:hover:-translate-y-2;
+    @apply active:scale-95 active:translate-y-0;
+    transition-property: transform, box-shadow;
+    transition-duration: var(--transition-duration);
+    transition-timing-function: var(--transition-function);
+    will-change: transform;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .card-hover {
+      @apply hover:scale-100 hover:translate-y-0 active:scale-100;
+    }
+  }
+
+  /* Campos de entrada optimizados */
   .input-field {
-    @apply w-full px-4 py-3 border border-gray-300 dark:border-gray-600 
-           rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent 
-           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-           transition-all duration-200;
+    @apply w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 dark:border-gray-600;
+    @apply rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white;
+    @apply placeholder-gray-400 transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+    font-size: 16px; /* Evitar zoom en iOS */
   }
 
+  /* Títulos de secciones optimizados */
   .section-title {
-    @apply text-4xl md:text-5xl font-bold text-gray-900 dark:text-white 
-           mb-4 bg-gradient-tropical bg-clip-text text-transparent;
+    @apply font-bold text-gray-900 dark:text-white mb-4;
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+    @apply bg-gradient-tropical bg-clip-text text-transparent;
+    letter-spacing: -0.015em;
+    /* Mantener gradient en dark mode */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
+  /* Efecto shimmer optimizado */
   .shimmer-effect {
     background: linear-gradient(
       90deg,
@@ -65,6 +148,9 @@
     );
     background-size: 200% 100%;
     animation: shimmer 2s infinite;
+    /* Usar GPU acceleration */
+    will-change: background-position;
+    transform: translateZ(0);
   }
 }
 
@@ -73,13 +159,45 @@
     text-wrap: balance;
   }
 
+  /* Scrollbar oculto optimizado */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
 
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  /* Utilities responsive */
+  @media (max-width: 640px) {
+    .sm\:pt-safe {
+      padding-top: max(1rem, env(safe-area-inset-top));
+    }
+    .sm\:pb-safe {
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+  }
+
+  /* Optimizaciones de performance */
+  .gpu-acceleration {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Prevent layout shift en imágenes */
+  .aspect-video {
+    position: relative;
+  }
+
+  /* Reducir motion para usuarios que lo prefieren */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
@@ -93,21 +211,88 @@
   }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-/* Swiper customization */
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Swiper customization optimizado */
 .swiper-button-next,
 .swiper-button-prev {
-  @apply text-white bg-primary-500/80 rounded-full p-2 w-10 h-10;
+  @apply text-white bg-primary-500/80 rounded-full;
+  @apply w-8 h-8 sm:w-10 sm:h-10 p-1 sm:p-2;
+  @apply transition-all duration-200;
+  @apply hover:bg-primary-600 active:bg-primary-700;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
 }
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
-  @apply text-sm;
+  @apply text-xs sm:text-sm;
+  font-size: inherit;
 }
 
 .swiper-pagination-bullet-active {
   @apply bg-primary-500;
+}
+
+.swiper-pagination-bullet {
+  @apply transition-all duration-200;
+}
+
+/* Optimizaciones específicas para tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .btn-primary,
+  .btn-secondary {
+    @apply px-5 py-2.5;
+  }
+
+  .section-title {
+    @apply text-3xl sm:text-4xl;
+  }
+}
+
+/* Optimizaciones para pantallas pequeñas */
+@media (max-width: 640px) {
+  body {
+    @apply text-sm;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    @apply w-full;
+  }
+
+  /* Evitar problemas de viewport en mobile */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }

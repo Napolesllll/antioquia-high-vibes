@@ -20,110 +20,127 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50)
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    
+    const scrollListener = handleScroll
+    window.addEventListener('scroll', scrollListener, { passive: true })
+    return () => window.removeEventListener('scroll', scrollListener)
   }, [])
 
   if (!mounted) return null
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
         scrolled
           ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg'
           : 'bg-transparent pointer-events-none'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20 relative z-50">
-          {/* Logo */}
-          <Link href="/" className={`flex items-center space-x-3 group relative z-50 ${!scrolled ? 'pointer-events-auto' : ''}`}>
+      <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 sm:h-20 relative">
+          {/* Logo - Responsive size */}
+          <Link 
+            href="/" 
+            className={`flex items-center flex-shrink-0 relative ${!scrolled ? 'pointer-events-auto' : ''}`}
+          >
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="relative w-64 h-64"
+              className="relative w-32 h-12 sm:w-48 sm:h-16 md:w-64 md:h-16"
             >
               <Image
                 src="/images/logol.png"
                 alt="High Vibes Logo"
                 fill
                 className="object-contain"
+                priority
+                sizes="(max-width: 640px) 128px, (max-width: 768px) 192px, 256px"
               />
             </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className={`hidden md:flex items-center space-x-8 relative z-50 ${!scrolled ? 'pointer-events-auto' : ''}`}>
-            <Link
-              href="/destinations"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
-            >
-              Destinos
-            </Link>
-            <Link
-              href="/properties"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
-            >
-              Fincas
-            </Link>
-            <Link
-              href="/about"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
-            >
-              Nosotros
-            </Link>
-            
-            {/* Theme Toggle */}
-            <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-5 h-5 text-yellow-500" />
-              ) : (
-                <Moon className="w-5 h-5 text-gray-700" />
-              )}
-            </button>
-
-            {/* User Menu */}
-            {session ? (
-              <div className="flex items-center space-x-4">
-                {session.user.role === 'ADMIN' && (
-                  <Link
-                    href="/admin"
-                    className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                  >
-                    <Settings className="w-4 h-4" />
-                    <span className="font-medium">Admin</span>
-                  </Link>
-                )}
-                <Link
-                  href="/profile"
-                  className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                >
-                  <User className="w-4 h-4" />
-                  <span className="font-medium">{session.user.name}</span>
-                </Link>
-                <button
-                  onClick={() => signOut()}
-                  className="p-2 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors"
-                  aria-label="Cerrar sesión"
-                >
-                  <LogOut className="w-5 h-5" />
-                </button>
-              </div>
-            ) : (
-              <Link href="/auth/signin" className="btn-primary">
-                Iniciar Sesión
+          <div className={`hidden md:flex items-center gap-4 lg:gap-6 relative ${!scrolled ? 'pointer-events-auto' : ''}`}>
+            {/* Navigation Links */}
+            <div className="flex items-center space-x-6 lg:space-x-8">
+              <Link
+                href="/destinations"
+                className="text-sm lg:text-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium whitespace-nowrap"
+              >
+                Destinos
               </Link>
-            )}
+              <Link
+                href="/properties"
+                className="text-sm lg:text-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium whitespace-nowrap"
+              >
+                Fincas
+              </Link>
+              <Link
+                href="/about"
+                className="text-sm lg:text-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium whitespace-nowrap"
+              >
+                Nosotros
+              </Link>
+            </div>
+            
+            {/* Divider */}
+            <div className="h-6 w-px bg-gray-300 dark:bg-gray-700"></div>
+
+            {/* User Actions */}
+            <div className="flex items-center gap-2 lg:gap-3">
+              {/* Theme Toggle */}
+              <button
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? (
+                  <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />
+                ) : (
+                  <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
+                )}
+              </button>
+
+              {/* User Menu */}
+              {session ? (
+                <>
+                  {session.user.role === 'ADMIN' && (
+                    <Link
+                      href="/admin"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-sm lg:text-base"
+                    >
+                      <Settings className="w-4 h-4" />
+                      <span className="font-medium whitespace-nowrap">Admin</span>
+                    </Link>
+                  )}
+                  <Link
+                    href="/profile"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors text-sm lg:text-base"
+                  >
+                    <User className="w-4 h-4" />
+                    <span className="font-medium truncate max-w-[100px]">{session.user.name}</span>
+                  </Link>
+                  <button
+                    onClick={() => signOut()}
+                    className="p-1.5 sm:p-2 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors"
+                    aria-label="Cerrar sesión"
+                  >
+                    <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </button>
+                </>
+              ) : (
+                <Link href="/auth/signin" className="btn-primary text-sm sm:text-base">
+                  Iniciar Sesión
+                </Link>
+              )}
+            </div>
           </div>
 
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative z-50 ${!scrolled ? 'pointer-events-auto' : ''}`}
+            className={`md:hidden p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative ${!scrolled ? 'pointer-events-auto' : ''}`}
             aria-label="Toggle menu"
+            aria-expanded={isOpen}
           >
             {isOpen ? (
               <X className="w-6 h-6 text-gray-700 dark:text-gray-300" />
@@ -141,11 +158,12 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 relative z-50"
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 relative"
           >
-            <div className="px-4 py-6 space-y-4">
+            <div className="px-3 py-4 xs:px-4 xs:py-6 space-y-3 xs:space-y-4">
               <Link
-                href="/categories"
+                href="/destinations"
                 className="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
                 onClick={() => setIsOpen(false)}
               >
@@ -197,7 +215,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   href="/auth/signin"
-                  className="block w-full text-center btn-primary"
+                  className="block w-full text-center btn-primary mt-2"
                   onClick={() => setIsOpen(false)}
                 >
                   Iniciar Sesión

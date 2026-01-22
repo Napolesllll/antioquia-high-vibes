@@ -3,9 +3,8 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { LayoutDashboard, FolderPlus, Package, LogOut } from 'lucide-react'
+import { LayoutDashboard, FolderPlus, Package } from 'lucide-react'
 import Link from 'next/link'
-import { signOut } from 'next-auth/react'
 import { motion } from 'framer-motion'
 
 interface AdminLayoutProps {
@@ -51,32 +50,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 h-20 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 z-40">
-        <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <LayoutDashboard className="w-6 h-6 text-primary-600" />
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-              Panel Admin
-            </h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <span className="text-sm text-gray-600 dark:text-gray-400">
-              {session.user.name}
-            </span>
-            <button
-              onClick={() => signOut({ redirect: true, callbackUrl: '/' })}
-              className="flex items-center space-x-2 px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
-            >
-              <LogOut className="w-4 h-4" />
-              <span className="text-sm font-medium">Salir</span>
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      <div className="flex pt-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20">
+      <div className="flex">
         {/* Sidebar */}
         <aside className="fixed left-0 top-20 bottom-0 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 hidden md:block overflow-y-auto">
           <div className="p-6 space-y-2">
