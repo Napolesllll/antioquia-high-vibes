@@ -1,17 +1,9 @@
 import type { Metadata } from 'next'
-import { Poppins } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { Providers } from './providers'
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-poppins',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   title: 'Antioquia High Vibes | Espacios para momentos inolvidables',
@@ -36,11 +28,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className={poppins.variable}>
+    <html lang="es" className="scroll-smooth">
       <head>
         {/* Preconnect para optimizar recursos externos */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <style>{`
+          :root {
+            --font-poppins: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+          }
+        `}</style>
       </head>
       <body className="bg-white dark:bg-gray-900 transition-colors duration-300">
         <Providers>

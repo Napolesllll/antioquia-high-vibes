@@ -76,7 +76,7 @@ model Property {
   categoryId    Int
   name          String
   slug          String        @unique
-  description   String        @db.Text
+  description   String?       @db.Text
   capacity      Int
   pricePerNight Float
   location      String

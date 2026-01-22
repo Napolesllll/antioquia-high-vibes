@@ -45,11 +45,11 @@ export async function generateMetadata({ params }: PropertyPageProps) {
 
   return {
     title: `${property.name} | Antioquia High Vibes`,
-    description: property.description.substring(0, 160),
+    description: property.description ? property.description.substring(0, 160) : `Descubre ${property.name} en Antioquia High Vibes`,
     openGraph: {
       title: property.name,
-      description: property.description,
-      images: [property.images[0]],
+      description: property.description || `Descubre ${property.name} en Antioquia High Vibes`,
+      images: [property.images?.[0]],
     },
   }
 }

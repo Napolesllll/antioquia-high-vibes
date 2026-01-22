@@ -27,7 +27,7 @@ async function main() {
     },
     {
       name: 'Santa Fe de Antioquia',
-      slug: 'santa-fe-de-antioquia',
+      slug: 'santa-fe-de-antioquia', 
       description: 'Pueblo patrimonio con arquitectura colonial y naturaleza',
       imageUrl: '/images/santafe.jpg',
     },

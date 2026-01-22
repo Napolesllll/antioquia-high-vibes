@@ -19,6 +19,9 @@ interface Property {
   capacity: number
   pricePerNight: number
   featured: boolean
+  description?: string
+  images?: string[]
+  amenities?: string[]
 }
 
 interface FormData {
@@ -29,7 +32,7 @@ interface FormData {
   capacity: number
   pricePerNight: number
   amenities: string
-  images: string
+  images: string[]
   featured: boolean
 }
 
@@ -49,7 +52,7 @@ export default function PropertiesManager() {
     capacity: 2,
     pricePerNight: 0,
     amenities: '',
-    images: '',
+    images: [],
     featured: false,
   })
 
@@ -102,8 +105,8 @@ export default function PropertiesManager() {
     setError(null)
     setSuccess(null)
 
-    if (!formData.categoryId || !formData.name || !formData.location || !formData.description) {
-      setError('Los campos principales son requeridos')
+    if (!formData.categoryId || !formData.name || !formData.location || !formData.pricePerNight || !formData.capacity) {
+      setError('Categoría, nombre, ubicación, precio y capacidad son requeridos')
       return
     }
 
@@ -119,8 +122,8 @@ export default function PropertiesManager() {
         description: formData.description,
         capacity: parseInt(formData.capacity.toString()),
         pricePerNight: parseFloat(formData.pricePerNight.toString()),
-        amenities: formData.amenities.split(',').map(a => a.trim()),
-        images: formData.images.split('\n').filter(i => i.trim()),
+        amenities: formData.amenities.split(',').map(a => a.trim()).filter(a => a),
+        images: Array.isArray(formData.images) ? formData.images : [],
         featured: formData.featured,
       }
 
@@ -153,11 +156,11 @@ export default function PropertiesManager() {
       categoryId: property.categoryId,
       name: property.name,
       location: property.location,
-      description: '',
+      description: property.description || '',
       capacity: property.capacity,
       pricePerNight: property.pricePerNight,
-      amenities: '',
-      images: '',
+      amenities: property.amenities?.join(', ') || '',
+      images: property.images || [],
       featured: property.featured,
     })
     setEditingId(property.id)
@@ -191,7 +194,7 @@ export default function PropertiesManager() {
       capacity: 2,
       pricePerNight: 0,
       amenities: '',
-      images: '',
+      images: [],
       featured: false,
     })
   }
@@ -454,10 +457,10 @@ export default function PropertiesManager() {
                 </label>
                 <CloudinaryMultiUpload
                   onImagesUpload={(urls) => {
-                    setFormData(prev => ({ ...prev, images: urls.join('\n') }))
+                    setFormData(prev => ({ ...prev, images: urls }))
                   }}
                   placeholder="Sube las imágenes de la finca"
-                  currentImages={formData.images ? formData.images.split('\n').filter(i => i.trim()) : []}
+                  currentImages={Array.isArray(formData.images) ? formData.images : []}
                 />
               </div>
 

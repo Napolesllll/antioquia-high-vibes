@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
 export async function GET() {
@@ -15,6 +15,9 @@ export async function GET() {
         capacity: true,
         pricePerNight: true,
         featured: true,
+        description: true,
+        images: true,
+        amenities: true,
       },
     })
     return NextResponse.json(properties)
@@ -54,7 +57,6 @@ export async function POST(request: NextRequest) {
       !name ||
       !slug ||
       !location ||
-      !description ||
       !capacity ||
       !pricePerNight
     ) {
@@ -81,7 +83,7 @@ export async function POST(request: NextRequest) {
         name,
         slug,
         location,
-        description,
+        description: description || '',
         capacity,
         pricePerNight,
         amenities: amenities || [],

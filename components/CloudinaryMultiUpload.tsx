@@ -18,6 +18,7 @@ export default function CloudinaryMultiUpload({
 }: CloudinaryMultiUploadProps) {
   const [images, setImages] = useState<string[]>(currentImages)
   const [isUploading, setIsUploading] = useState(false)
+  const MAX_IMAGES = 20
 
   const handleUpload = (result: any) => {
     setIsUploading(true)
@@ -48,7 +49,7 @@ export default function CloudinaryMultiUpload({
           <button
             type="button"
             onClick={() => open()}
-            disabled={isUploading}
+            disabled={isUploading || images.length >= MAX_IMAGES}
             className="w-full border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-primary-500 dark:hover:border-primary-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <div className="flex flex-col items-center space-y-2">
@@ -63,10 +64,10 @@ export default function CloudinaryMultiUpload({
                 <>
                   <Upload className="w-8 h-8 text-gray-400" />
                   <span className="text-gray-600 dark:text-gray-400 text-sm">
-                    {placeholder}
+                    {images.length >= MAX_IMAGES ? 'Límite de 20 imágenes alcanzado' : placeholder}
                   </span>
                   <span className="text-xs text-gray-500 dark:text-gray-500">
-                    {images.length > 0 && `${images.length} imagen${images.length !== 1 ? 'es' : ''} cargada${images.length !== 1 ? 's' : ''}`}
+                    {images.length > 0 && `${images.length}/${MAX_IMAGES} imagen${images.length !== 1 ? 'es' : ''} cargada${images.length !== 1 ? 's' : ''}`}
                   </span>
                 </>
               )}

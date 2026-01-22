@@ -45,7 +45,7 @@ export default function Navbar() {
           >
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="relative w-32 h-12 sm:w-48 sm:h-16 md:w-64 md:h-16"
+              className="relative w-48 h-20 sm:w-72 sm:h-28 md:w-96 md:h-32 lg:w-[28rem] lg:h-36"
             >
               <Image
                 src="/images/logol.png"
@@ -53,7 +53,7 @@ export default function Navbar() {
                 fill
                 className="object-contain"
                 priority
-                sizes="(max-width: 640px) 128px, (max-width: 768px) 192px, 256px"
+                sizes="(max-width: 640px) 192px, (max-width: 768px) 288px, (max-width: 1024px) 384px, 448px"
               />
             </motion.div>
           </Link>
