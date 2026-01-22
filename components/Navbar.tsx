@@ -29,19 +29,17 @@ export default function Navbar() {
   if (!mounted) return null
 
   return (
-    <nav
-      className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
+    <nav className="fixed top-0 w-full z-[100] transition-all duration-300">
+      <div className={`max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8 transition-all duration-300 ${
         scrolled
           ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg'
-          : 'bg-transparent pointer-events-none'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
+          : 'bg-transparent'
+      }`}>
         <div className="flex justify-between items-center h-16 sm:h-20 relative">
           {/* Logo - Responsive size */}
           <Link 
             href="/" 
-            className={`flex items-center flex-shrink-0 relative ${!scrolled ? 'pointer-events-auto' : ''}`}
+            className="flex items-center flex-shrink-0 relative"
           >
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -59,7 +57,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className={`hidden md:flex items-center gap-4 lg:gap-6 relative ${!scrolled ? 'pointer-events-auto' : ''}`}>
+          <div className="hidden md:flex items-center gap-4 lg:gap-6 relative">
             {/* Navigation Links */}
             <div className="flex items-center space-x-6 lg:space-x-8">
               <Link
@@ -138,7 +136,7 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`md:hidden p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative ${!scrolled ? 'pointer-events-auto' : ''}`}
+            className="md:hidden p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative"
             aria-label="Toggle menu"
             aria-expanded={isOpen}
           >
