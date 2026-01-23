@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import PropertyGallery from '@/components/properties/PropertyGallery'
 import ReservationForm from '@/components/properties/ReservationForm'
 import PropertyAmenities from '@/components/properties/PropertyAmenities'
 import PropertyMap from '@/components/properties/PropertyMap'
-import { MapPin, Users, Bed, Bath, Wifi, Utensils } from 'lucide-react'
+import { MapPin, Users, Bed, Bath, Wifi, Utensils, ArrowLeft } from 'lucide-react'
 
 interface PropertyPageProps {
   params: {
@@ -64,6 +65,15 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   return (
     <div className="min-h-screen pt-20 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Botón Volver Atrás */}
+        <Link
+          href="/properties"
+          className="inline-flex items-center gap-2 mb-6 px-4 py-2.5 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 group"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
+          <span className="font-medium text-sm">Volver</span>
+        </Link>
+
         {/* Gallery */}
         <PropertyGallery images={property.images} name={property.name} />
 

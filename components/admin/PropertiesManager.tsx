@@ -211,16 +211,16 @@ export default function PropertiesManager() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+    <div className="space-y-4 xs:space-y-5 sm:space-y-6">
+      <div className="flex flex-col xs:flex-row justify-between items-start xs:items-center gap-3 xs:gap-4">
+        <h1 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
           Gestionar Fincas
         </h1>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center space-x-2 bg-gradient-tropical hover:shadow-lg text-white font-semibold px-6 py-3 rounded-lg transition"
+          className="flex items-center gap-1.5 xs:gap-2 bg-gradient-tropical hover:shadow-lg text-white font-semibold px-4 xs:px-5 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg transition text-xs xs:text-sm sm:text-base whitespace-nowrap"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="w-4 h-4 xs:w-5 xs:h-5" />
           <span>Nueva Finca</span>
         </button>
       </div>
@@ -230,9 +230,9 @@ export default function PropertiesManager() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center space-x-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg"
+          className="flex items-start xs:items-center gap-2 xs:gap-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg text-sm xs:text-base"
         >
-          <AlertCircle className="w-5 h-5" />
+          <AlertCircle className="w-4 h-4 xs:w-5 xs:h-5 flex-shrink-0" />
           <span>{error}</span>
         </motion.div>
       )}
@@ -241,35 +241,35 @@ export default function PropertiesManager() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center space-x-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 rounded-lg"
+          className="flex items-start xs:items-center gap-2 xs:gap-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-3 xs:px-4 py-2.5 xs:py-3 rounded-lg text-sm xs:text-base"
         >
-          <CheckCircle className="w-5 h-5" />
+          <CheckCircle className="w-4 h-4 xs:w-5 xs:h-5 flex-shrink-0" />
           <span>{success}</span>
         </motion.div>
       )}
 
       {/* Properties Table */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-lg xs:rounded-xl shadow-md overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full min-w-max">
             <thead>
               <tr className="bg-gray-50 dark:bg-gray-700">
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-left text-xs xs:text-sm font-semibold text-gray-900 dark:text-white">
                   Nombre
                 </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-left text-xs xs:text-sm font-semibold text-gray-900 dark:text-white">
                   Pueblo
                 </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-left text-xs xs:text-sm font-semibold text-gray-900 dark:text-white">
                   Capacidad
                 </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-left text-xs xs:text-sm font-semibold text-gray-900 dark:text-white">
                   Precio/Noche
                 </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-left text-xs xs:text-sm font-semibold text-gray-900 dark:text-white">
                   Destacada
                 </th>
-                <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900 dark:text-white">
+                <th className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-center text-xs xs:text-sm font-semibold text-gray-900 dark:text-white">
                   Acciones
                 </th>
               </tr>
@@ -279,20 +279,20 @@ export default function PropertiesManager() {
                 const category = categories.find(c => c.id === property.categoryId)
                 return (
                   <tr key={property.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                    <td className="px-6 py-4 text-gray-900 dark:text-white font-medium">
+                    <td className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-gray-900 dark:text-white font-medium text-xs xs:text-sm">
                       {property.name}
                     </td>
-                    <td className="px-6 py-4 text-gray-600 dark:text-gray-400">
+                    <td className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-gray-600 dark:text-gray-400 text-xs xs:text-sm">
                       {category?.name}
                     </td>
-                    <td className="px-6 py-4 text-gray-600 dark:text-gray-400">
+                    <td className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-gray-600 dark:text-gray-400 text-xs xs:text-sm">
                       {property.capacity} personas
                     </td>
-                    <td className="px-6 py-4 text-gray-900 dark:text-white font-semibold">
+                    <td className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-gray-900 dark:text-white font-semibold text-xs xs:text-sm">
                       ${property.pricePerNight.toLocaleString()}
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    <td className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4">
+                      <span className={`px-2 xs:px-3 py-0.5 xs:py-1 rounded-full text-xs xs:text-sm font-medium whitespace-nowrap ${
                         property.featured
                           ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
                           : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-400'
@@ -300,18 +300,18 @@ export default function PropertiesManager() {
                         {property.featured ? 'Sí' : 'No'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-center space-x-2 flex justify-center">
+                    <td className="px-3 xs:px-4 sm:px-6 py-3 xs:py-4 text-center space-x-1 xs:space-x-2 flex justify-center">
                       <button
                         onClick={() => handleEdit(property)}
-                        className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition"
+                        className="p-1.5 xs:p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition"
                       >
-                        <Edit2 className="w-4 h-4" />
+                        <Edit2 className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(property.id)}
-                        className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
+                        className="p-1.5 xs:p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
                       </button>
                     </td>
                   </tr>
@@ -324,27 +324,27 @@ export default function PropertiesManager() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 xs:p-4 overflow-y-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full p-6 space-y-6 my-8"
+            className="bg-white dark:bg-gray-800 rounded-lg xs:rounded-2xl shadow-2xl max-w-2xl w-full p-4 xs:p-6 space-y-4 xs:space-y-6 my-4 xs:my-8"
           >
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-xl xs:text-2xl font-bold text-gray-900 dark:text-white">
               {editingId ? 'Editar Finca' : 'Crear Nueva Finca'}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4 max-h-96 overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="space-y-3 xs:space-y-4 max-h-96 overflow-y-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 xs:gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
                     Pueblo
                   </label>
                   <select
                     name="categoryId"
                     value={formData.categoryId}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                     disabled={isLoading}
                   >
                     {categories.map(cat => (
@@ -354,7 +354,7 @@ export default function PropertiesManager() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
                     Nombre de la Finca
                   </label>
                   <input
@@ -363,13 +363,13 @@ export default function PropertiesManager() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Ej: Casa Rural Bella Vista"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                     disabled={isLoading}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
                     Ubicación
                   </label>
                   <input
@@ -378,13 +378,13 @@ export default function PropertiesManager() {
                     value={formData.location}
                     onChange={handleChange}
                     placeholder="Dirección completa"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                     disabled={isLoading}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
                     Precio por Noche ($)
                   </label>
                   <input
@@ -395,13 +395,13 @@ export default function PropertiesManager() {
                     placeholder="0"
                     min="0"
                     step="1000"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                     disabled={isLoading}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
                     Capacidad (Personas)
                   </label>
                   <input
@@ -410,13 +410,13 @@ export default function PropertiesManager() {
                     value={formData.capacity}
                     onChange={handleChange}
                     min="1"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                     disabled={isLoading}
                   />
                 </div>
 
-                <div className="flex items-end">
-                  <label className="flex items-center space-x-2 cursor-pointer">
+                <div className="flex items-start md:items-end md:col-span-2 lg:col-span-1">
+                  <label className="flex items-center gap-2 xs:gap-2 cursor-pointer">
                     <input
                       type="checkbox"
                       name="featured"
@@ -425,7 +425,7 @@ export default function PropertiesManager() {
                       className="w-4 h-4 rounded"
                       disabled={isLoading}
                     />
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <span className="text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300">
                       Destacar esta finca
                     </span>
                   </label>
@@ -433,7 +433,7 @@ export default function PropertiesManager() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
                   Descripción
                 </label>
                 <textarea
@@ -442,13 +442,13 @@ export default function PropertiesManager() {
                   onChange={handleChange}
                   placeholder="Describe la finca detalladamente"
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                   disabled={isLoading}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
                   Amenidades (separadas por comas)
                 </label>
                 <textarea
@@ -457,13 +457,13 @@ export default function PropertiesManager() {
                   onChange={handleChange}
                   placeholder="WiFi, Piscina, Jardín, Cocina, etc."
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                   disabled={isLoading}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
                   Imágenes de la Finca
                 </label>
                 <CloudinaryMultiUpload
@@ -475,24 +475,24 @@ export default function PropertiesManager() {
                 />
               </div>
 
-              <div className="flex space-x-3 pt-4">
+              <div className="flex gap-2 xs:gap-3 pt-3 xs:pt-4">
                 <button
                   type="button"
                   onClick={resetForm}
                   disabled={isLoading}
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition disabled:opacity-50"
+                  className="flex-1 px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition disabled:opacity-50 text-xs xs:text-sm"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="flex-1 flex items-center justify-center space-x-2 bg-gradient-tropical text-white font-medium rounded-lg hover:shadow-lg transition disabled:opacity-50"
+                  className="flex-1 flex items-center justify-center gap-1.5 xs:gap-2 bg-gradient-tropical text-white font-medium rounded-lg hover:shadow-lg transition disabled:opacity-50 px-3 xs:px-4 py-1.5 xs:py-2 text-xs xs:text-sm"
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Guardando...</span>
+                      <Loader2 className="w-3.5 h-3.5 xs:w-4 xs:h-4 animate-spin" />
+                      <span className="hidden xs:inline">Guardando...</span>
                     </>
                   ) : (
                     <span>{editingId ? 'Actualizar' : 'Crear'}</span>

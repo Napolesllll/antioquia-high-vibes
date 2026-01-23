@@ -43,11 +43,11 @@ export default async function HomePage() {
           ...prop,
           createdAt: prop.createdAt.toISOString(),
           updatedAt: prop.updatedAt.toISOString(),
-          category: {
+          category: prop.category ? {
             ...prop.category,
             createdAt: prop.category.createdAt.toISOString(),
             updatedAt: prop.category.updatedAt.toISOString(),
-          },
+          } : undefined,
         }))} 
       />
       
