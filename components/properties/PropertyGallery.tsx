@@ -91,12 +91,24 @@ export default function PropertyGallery({ images, name }: PropertyGalleryProps) 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center cursor-pointer"
-            onClick={closeLightbox}
-            onTouchEnd={closeLightbox}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                closeLightbox()
+              }
+            }}
+            onTouchEnd={(e) => {
+              if (e.target === e.currentTarget) {
+                closeLightbox()
+              }
+            }}
           >
             {/* Close Button */}
             <button
               onClick={closeLightbox}
+              onTouchEnd={(e) => {
+                e.stopPropagation()
+                closeLightbox()
+              }}
               className="absolute top-2 xs:top-3 sm:top-6 right-2 xs:right-3 sm:right-6 p-2 xs:p-2.5 sm:p-3 text-white bg-white/20 hover:bg-white/30 rounded-full transition-all duration-300 z-[200] flex-shrink-0 shadow-lg"
             >
               <X className="w-6 h-6 xs:w-6 xs:h-6 sm:w-7 sm:h-7" />
@@ -108,6 +120,10 @@ export default function PropertyGallery({ images, name }: PropertyGalleryProps) 
                 e.stopPropagation()
                 prevImage()
               }}
+              onTouchEnd={(e) => {
+                e.stopPropagation()
+                prevImage()
+              }}
               className="absolute left-2 xs:left-3 sm:left-4 p-1.5 xs:p-2 sm:p-2 text-white hover:bg-white/10 rounded-full transition-colors z-10"
             >
               <ChevronLeft className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8" />
@@ -115,6 +131,10 @@ export default function PropertyGallery({ images, name }: PropertyGalleryProps) 
 
             <button
               onClick={(e) => {
+                e.stopPropagation()
+                nextImage()
+              }}
+              onTouchEnd={(e) => {
                 e.stopPropagation()
                 nextImage()
               }}
