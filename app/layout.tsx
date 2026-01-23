@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import Footer from '@/components/Footer'
+import LoadingScreen from '@/components/LoadingScreen'
 import { Providers } from './providers'
 import ConditionalNavbar from '@/components/ConditionalNavbar'
 
@@ -36,6 +37,7 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning className="bg-white dark:bg-gray-900 transition-colors duration-300">
         <Providers>
+          <LoadingScreen />
           <ConditionalNavbar />
           <main className="min-h-screen">
             {children}

@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation'
 import { 
   Menu, X, Sun, Moon, User, LogOut, Settings, 
   Home, MapPin, Users as UsersIcon, Sparkles, 
-  ChevronDown, Search, Bell, Heart
+  ChevronDown, Search, Bell, Heart, MessageCircle, HelpCircle
 } from 'lucide-react'
 
 export default function Navbar() {
@@ -375,6 +375,17 @@ export default function Navbar() {
                   </div>
                   <span className="font-bold text-sm xs:text-lg">Contacto</span>
                 </Link>
+
+                <Link
+                  href="/faq"
+                  className="flex items-center gap-3 px-3 xs:px-4 py-3 xs:py-4 rounded-xl text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300 group hover:bg-gradient-to-r hover:from-primary-500/10 hover:to-ocean-500/10"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <div className="w-8 h-8 xs:w-10 xs:h-10 rounded-lg bg-gradient-to-r from-primary-500/20 to-ocean-500/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <HelpCircle className="w-4 h-4 xs:w-5 xs:h-5 text-primary-600 dark:text-primary-400" />
+                  </div>
+                  <span className="font-bold text-sm xs:text-lg">Preguntas Frecuentes</span>
+                </Link>
               </div>
 
               {/* Separador */}
@@ -472,12 +483,5 @@ export default function Navbar() {
 const Calendar = ({ className }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-  </svg>
-)
-
-// Componente de mensaje para contacto
-const MessageCircle = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
   </svg>
 )

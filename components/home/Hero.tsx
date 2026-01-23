@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { Search, MapPin, Calendar, Users } from 'lucide-react'
-import { useState, useMemo } from 'react'
+import { Search, MapPin, Calendar, Users, Sparkles, ChevronDown, Zap } from 'lucide-react'
+import { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function Hero() {
@@ -13,17 +13,26 @@ export default function Hero() {
     checkOut: '',
     guests: '2',
   })
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Calcular fechas mínimas y máximas
+  const today = new Date().toISOString().split('T')[0]
+  const maxDate = new Date()
+  maxDate.setFullYear(maxDate.getFullYear() + 1)
+  const maxDateString = maxDate.toISOString().split('T')[0]
 
   const particles = useMemo(() => 
-    [...Array(20)].map((_, i) => ({
+    [...Array(30)].map((_, i) => ({
       id: i,
-      size: Math.random() * 3 + 1.5,
+      size: Math.random() * 4 + 2,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      duration: Math.random() * 8 + 8,
-      xOffset: (Math.random() - 0.5) * 80,
-      yOffset: (Math.random() - 0.5) * 80,
-      delay: Math.random() * 4,
+      duration: Math.random() * 10 + 10,
+      delay: Math.random() * 5,
     })),
     []
   )
@@ -39,176 +48,316 @@ export default function Hero() {
     router.push(`/properties?${queryParams.toString()}`)
   }
 
+  if (!mounted) return null
+
   return (
-    <section className="relative min-h-[95vh] sm:min-h-screen flex items-center justify-center overflow-hidden pt-12 sm:pt-20 px-4">
-      {/* Fondo con gradientes optimizados para móvil */}
+    <section className="relative min-h-[95vh] sm:min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20 px-3 xs:px-4 sm:px-6">
+      {/* Fondo con efectos mejorados */}
       <div className="absolute inset-0 overflow-hidden">
+        {/* Gradientes principales */}
         <div 
           className="absolute inset-0"
           style={{
-            background: 'radial-gradient(circle at 30% 40%, rgba(34, 197, 94, 0.2) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(14, 165, 233, 0.15) 0%, transparent 50%), radial-gradient(circle at 50% 80%, rgba(250, 204, 21, 0.1) 0%, transparent 50%)'
+            background: 'radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.25) 0%, transparent 50%), radial-gradient(circle at 80% 60%, rgba(14, 165, 233, 0.2) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(250, 204, 21, 0.15) 0%, transparent 50%)',
+            animation: 'gradientShift 15s ease-in-out infinite alternate'
           }}
         />
 
-        {/* Partículas optimizadas para móvil */}
-        {particles.slice(0, 8).map((particle) => (
+        {/* Partículas mejoradas */}
+        {particles.slice(0, 12).map((particle) => (
           <div
             key={particle.id}
-            className="absolute rounded-full bg-white/8"
+            className="absolute rounded-full bg-white/10 backdrop-blur-sm"
             style={{
-              width: `${Math.min(particle.size, 2.5)}px`,
-              height: `${Math.min(particle.size, 2.5)}px`,
+              width: `${Math.min(particle.size, 3)}px`,
+              height: `${Math.min(particle.size, 3)}px`,
               left: `${particle.x}%`,
               top: `${particle.y}%`,
-              animation: `twinkle ${particle.duration}s ease-in-out infinite`,
+              animation: `float ${particle.duration}s ease-in-out infinite`,
               animationDelay: `${particle.delay}s`,
             }}
           />
         ))}
 
-        {/* Globs más suaves y posicionados mejor en móvil */}
-        <div className="absolute top-1/3 -left-12 sm:left-1/4 w-40 sm:w-64 md:w-80 h-40 sm:h-64 md:h-80 bg-gradient-to-r from-primary-400/20 to-ocean-400/10 rounded-full blur-2xl sm:blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/3 -right-12 sm:right-1/4 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-gradient-to-l from-gold-400/15 to-primary-500/10 rounded-full blur-2xl sm:blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+        {/* Globs animados */}
+        <div className="absolute top-1/4 -left-16 sm:-left-20 md:left-1/4 w-48 sm:w-64 md:w-80 h-48 sm:h-64 md:h-80 bg-gradient-to-r from-primary-500/25 to-ocean-500/15 rounded-full blur-3xl sm:blur-4xl animate-pulse" />
+        <div className="absolute bottom-1/4 -right-16 sm:-right-20 md:right-1/4 w-56 sm:w-72 md:w-96 h-56 sm:h-72 md:h-96 bg-gradient-to-l from-gold-500/20 to-primary-500/15 rounded-full blur-3xl sm:blur-4xl animate-pulse" style={{ animationDelay: '1.5s' }} />
 
+        {/* Patrón decorativo sutil */}
         <div 
-          className="absolute inset-0 opacity-[0.005]"
+          className="absolute inset-0 opacity-[0.02]"
           style={{
-            backgroundImage: `linear-gradient(90deg, transparent 95%, white 100%), linear-gradient(0deg, transparent 95%, white 100%)`,
-            backgroundSize: '40px 40px',
+            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+            backgroundSize: '50px 50px',
           }}
         />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 text-center">
-        <div className="animate-fade-in-up">
-          {/* Logo mejorado para móvil */}
-          <div className="flex justify-center mb-6 sm:mb-8">
-            <div className="relative w-32 h-32 sm:w-64 md:w-80 lg:w-96 h-32 sm:h-64 md:h-80 lg:h-96">
-              <Image
-                src="/images/logooo.png"
-                alt="High Vibes Logo"
-                fill
-                className="object-contain drop-shadow-xl"
-                priority
-                sizes="(max-width: 640px) 128px, (max-width: 768px) 256px, (max-width: 1024px) 320px, 384px"
-              />
-            </div>
-          </div>
-
-          {/* Subtítulo más impactante */}
-          <div className="space-y-2 sm:space-y-4 mb-6 sm:mb-10">
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/95 max-w-3xl mx-auto font-medium px-2 animate-fade-in-up tracking-wide" style={{ animationDelay: '0.1s' }}>
-              No te alquilamos fincas…
-            </p>
-
-            <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white font-bold max-w-3xl mx-auto px-2 animate-fade-in-up leading-tight sm:leading-snug" style={{ animationDelay: '0.2s' }}>
-              Te ofrecemos espacios para crear{' '}
-              <span className="bg-gradient-to-r from-primary-300 to-ocean-300 bg-clip-text text-transparent block sm:inline mt-2 sm:mt-0">
-                momentos inolvidables
-              </span>
-            </p>
+      {/* Contenido principal */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-2 xs:px-3 sm:px-6 lg:px-8 text-center">
+        {/* Logo con efecto */}
+        <div className="flex justify-center mb-6 sm:mb-8 md:mb-10">
+          <div className="relative w-36 h-36 xs:w-40 xs:h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-96 lg:h-96">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-ocean-500/20 rounded-full blur-xl animate-pulse"></div>
+            <Image
+              src="/images/logooo.png"
+              alt="High Vibes Logo"
+              fill
+              className="object-contain drop-shadow-2xl animate-float"
+              priority
+              sizes="(max-width: 360px) 144px, (max-width: 480px) 160px, (max-width: 640px) 224px, (max-width: 768px) 288px, (max-width: 1024px) 384px, 512px"
+            />
           </div>
         </div>
 
-        {/* Search Form - Optimizado para móvil */}
-        <div className="w-full max-w-5xl mx-auto px-2 sm:px-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+        {/* Texto principal */}
+        <div className="space-y-3 xs:space-y-4 sm:space-y-6 mb-8 sm:mb-12 md:mb-16 px-2">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary-500/20 to-ocean-500/20 backdrop-blur-lg px-4 py-2 rounded-full border border-primary-400/30 mb-2">
+            <Sparkles className="w-4 h-4 xs:w-5 xs:h-5 text-primary-300 animate-pulse" />
+            <span className="text-primary-200 font-bold text-xs xs:text-sm tracking-wider">
+              EXPERIENCIAS ÚNICAS
+            </span>
+          </div>
+
+          <p className="text-base xs:text-lg sm:text-xl md:text-2xl text-white/95 max-w-3xl mx-auto font-medium animate-fade-in-up tracking-wide" style={{ animationDelay: '0.1s' }}>
+            No te alquilamos fincas…
+          </p>
+
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white max-w-4xl mx-auto animate-fade-in-up leading-tight sm:leading-snug px-2" style={{ animationDelay: '0.2s' }}>
+            Te ofrecemos espacios para crear{' '}
+            <span className="bg-gradient-to-r from-primary-300 via-white to-ocean-300 bg-clip-text text-transparent block xs:inline mt-2 xs:mt-0">
+              momentos inolvidables
+            </span>
+          </h1>
+
+          <p className="text-sm xs:text-base sm:text-lg text-white/80 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            Descubre los pueblos mágicos de Antioquia y vive experiencias exclusivas en fincas cuidadosamente seleccionadas
+          </p>
+        </div>
+
+        {/* Formulario de búsqueda - Completamente rediseñado */}
+        <div className="w-full max-w-4xl mx-auto px-2 xs:px-3 sm:px-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
           <form
             onSubmit={handleSearch}
-            className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-2xl p-4 sm:p-5 md:p-7 mb-8 sm:mb-20 border border-white/30 dark:border-white/10 transition-all duration-300"
+            className="bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-800/95 dark:to-gray-800/90 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl p-4 xs:p-5 sm:p-6 md:p-8 border border-white/40 dark:border-white/10 transition-all duration-500 hover:shadow-3xl"
           >
-            <div className="grid grid-cols-1 gap-3 sm:gap-4 md:gap-5">
-              {/* Location Input */}
+            <div className="grid grid-cols-1 gap-4 xs:gap-5 sm:gap-6">
+              {/* Input de ubicación */}
               <div className="relative group">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center">
-                  <MapPin className="w-5 h-5 sm:w-5 sm:h-5 text-primary-500" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="¿A dónde vas?"
-                  value={searchParams.location}
-                  onChange={(e) =>
-                    setSearchParams({ ...searchParams, location: e.target.value })
-                  }
-                  className="w-full pl-10 pr-4 py-3 text-base bg-white/95 dark:bg-gray-700/70 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all"
-                />
-              </div>
-
-              {/* Date Inputs Container */}
-              <div className="grid grid-cols-2 gap-3">
-                {/* Check-in Input */}
-                <div className="relative group">
-                  <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center">
-                    <Calendar className="w-5 h-5 sm:w-5 sm:h-5 text-primary-500" />
+                <label className="block text-left text-sm xs:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2 pl-1">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-primary-500" />
+                    ¿A dónde te gustaría ir?
+                  </div>
+                </label>
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center">
+                    <MapPin className="w-5 h-5 text-primary-500 transition-colors group-focus-within:text-primary-600" />
                   </div>
                   <input
-                    type="date"
-                    placeholder="Llegada"
-                    value={searchParams.checkIn}
+                    type="text"
+                    placeholder="Ej: Jardín, Guatapé, Jericó..."
+                    value={searchParams.location}
                     onChange={(e) =>
-                      setSearchParams({ ...searchParams, checkIn: e.target.value })
+                      setSearchParams({ ...searchParams, location: e.target.value })
                     }
-                    className="w-full pl-10 pr-3 py-3 text-sm sm:text-base bg-white/95 dark:bg-gray-700/70 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all"
+                    className="w-full pl-12 pr-4 py-3 xs:py-4 text-base bg-white/80 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-4 focus:ring-primary-400/30 focus:border-primary-400 transition-all duration-300"
                   />
                 </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 pl-1">
+                  Descubre los pueblos más mágicos de Antioquia
+                </p>
+              </div>
 
-                {/* Check-out Input */}
+              {/* Fechas - Con etiquetas claras */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xs:gap-5">
+                {/* Check-in */}
                 <div className="relative group">
-                  <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center">
-                    <Calendar className="w-5 h-5 sm:w-5 sm:h-5 text-primary-500" />
+                  <label className="block text-left text-sm xs:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2 pl-1">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-primary-500" />
+                      Fecha de llegada
+                    </div>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center">
+                      <Calendar className="w-5 h-5 text-primary-500 transition-colors group-focus-within:text-primary-600" />
+                    </div>
+                    <input
+                      type="date"
+                      min={today}
+                      max={maxDateString}
+                      value={searchParams.checkIn}
+                      onChange={(e) =>
+                        setSearchParams({ ...searchParams, checkIn: e.target.value })
+                      }
+                      className="w-full pl-12 pr-4 py-3 xs:py-4 text-base bg-white/80 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-4 focus:ring-primary-400/30 focus:border-primary-400 transition-all duration-300 cursor-pointer"
+                    />
                   </div>
-                  <input
-                    type="date"
-                    placeholder="Salida"
-                    value={searchParams.checkOut}
-                    onChange={(e) =>
-                      setSearchParams({ ...searchParams, checkOut: e.target.value })
-                    }
-                    className="w-full pl-10 pr-3 py-3 text-sm sm:text-base bg-white/95 dark:bg-gray-700/70 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all"
-                  />
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 pl-1">
+                    Selecciona el día de tu llegada a la finca
+                  </p>
+                </div>
+
+                {/* Check-out */}
+                <div className="relative group">
+                  <label className="block text-left text-sm xs:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2 pl-1">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-primary-500" />
+                      Fecha de salida
+                    </div>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center">
+                      <Calendar className="w-5 h-5 text-primary-500 transition-colors group-focus-within:text-primary-600" />
+                    </div>
+                    <input
+                      type="date"
+                      min={searchParams.checkIn || today}
+                      max={maxDateString}
+                      value={searchParams.checkOut}
+                      onChange={(e) =>
+                        setSearchParams({ ...searchParams, checkOut: e.target.value })
+                      }
+                      className="w-full pl-12 pr-4 py-3 xs:py-4 text-base bg-white/80 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-4 focus:ring-primary-400/30 focus:border-primary-400 transition-all duration-300 cursor-pointer"
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 pl-1">
+                    Selecciona el día de tu salida de la finca
+                  </p>
                 </div>
               </div>
 
-              {/* Guests Select */}
+              {/* Huéspedes */}
               <div className="relative group">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center">
-                  <Users className="w-5 h-5 sm:w-5 sm:h-5 text-primary-500" />
+                <label className="block text-left text-sm xs:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2 pl-1">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-primary-500" />
+                    Número de huéspedes
+                  </div>
+                </label>
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center">
+                    <Users className="w-5 h-5 text-primary-500 transition-colors group-focus-within:text-primary-600" />
+                  </div>
+                  <select
+                    value={searchParams.guests}
+                    onChange={(e) =>
+                      setSearchParams({ ...searchParams, guests: e.target.value })
+                    }
+                    className="w-full pl-12 pr-12 py-3 xs:py-4 text-base bg-white/80 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-4 focus:ring-primary-400/30 focus:border-primary-400 transition-all duration-300 appearance-none cursor-pointer"
+                  >
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20].map((num) => (
+                      <option key={num} value={num}>
+                        {num} {num === 1 ? 'Huésped' : 'Huéspedes'}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <ChevronDown className="w-5 h-5 text-gray-400 transition-transform duration-300 group-focus-within:rotate-180" />
+                  </div>
                 </div>
-                <select
-                  value={searchParams.guests}
-                  onChange={(e) =>
-                    setSearchParams({ ...searchParams, guests: e.target.value })
-                  }
-                  className="w-full pl-10 pr-10 py-3 text-base bg-white/95 dark:bg-gray-700/70 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-all appearance-none"
-                >
-                  {[1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20].map((num) => (
-                    <option key={num} value={num}>
-                      {num} {num === 1 ? 'Huésped' : 'Huéspedes'}
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 pl-1">
+                  Incluye adultos y niños
+                </p>
               </div>
             </div>
 
-            {/* Search Button */}
+            {/* Botón de búsqueda con efectos */}
             <button
               type="submit"
-              className="w-full mt-4 sm:mt-5 flex items-center justify-center space-x-3 text-base sm:text-base font-semibold py-4 sm:py-4 rounded-xl transition-all duration-300 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white shadow-lg hover:shadow-xl"
+              className="w-full mt-6 xs:mt-7 sm:mt-8 group relative overflow-hidden bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-bold py-4 xs:py-5 sm:py-6 px-6 rounded-xl sm:rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 active:translate-y-0"
             >
-              <Search className="w-5 h-5 sm:w-6 sm:h-6" />
-              <span>Buscar Experiencias</span>
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+              <span className="relative flex items-center justify-center gap-3 text-base xs:text-lg sm:text-xl">
+                <div className="flex items-center gap-2">
+                  <Search className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7" />
+                  <span>Buscar Experiencias</span>
+                </div>
+                <Zap className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 transform group-hover:rotate-12 transition-transform duration-300" />
+              </span>
             </button>
+
+            {/* Info adicional */}
+            <div className="mt-4 xs:mt-5 text-center">
+              <p className="text-xs xs:text-sm text-gray-500 dark:text-gray-400">
+                🔒 Reserva 100% segura • 🎯 Más de 50 fincas disponibles • ⭐ 4.9/5 de satisfacción
+              </p>
+            </div>
           </form>
         </div>
 
-        {/* Scroll Indicator - Mejorado para móvil */}
-        
+        {/* Indicador de scroll */}
+        <div className="mt-8 sm:mt-12 md:mt-16 animate-bounce">
+          <div className="inline-flex flex-col items-center gap-2">
+            <span className="text-white/70 text-xs xs:text-sm font-medium tracking-wider">EXPLORA MÁS</span>
+            <div className="w-10 h-16 xs:w-12 xs:h-20 border-2 border-white/40 rounded-2xl flex justify-center items-start p-2 backdrop-blur-sm bg-white/5">
+              <div className="w-1.5 h-3 bg-gradient-to-b from-white to-white/60 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* Estilos CSS para animaciones */}
+      <style jsx>{`
+        @keyframes gradientShift {
+          0% { 
+            background-position: 20% 30%, 80% 60%, 40% 80%;
+          }
+          100% { 
+            background-position: 30% 40%, 70% 50%, 50% 70%;
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-fade-in-up {
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        /* Estilos para el input de fecha en móviles */
+        input[type="date"] {
+          color-scheme: light dark;
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+          background: transparent;
+          bottom: 0;
+          color: transparent;
+          cursor: pointer;
+          height: auto;
+          left: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: auto;
+        }
+        
+        /* Mejorar la experiencia táctil en móviles */
+        @media (max-width: 640px) {
+          input, select {
+            font-size: 16px; /* Previene el zoom automático en iOS */
+          }
+        }
+      `}</style>
     </section>
   )
 }
