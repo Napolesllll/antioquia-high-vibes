@@ -36,7 +36,7 @@ export default function PropertyGallery({ images, name }: PropertyGalleryProps) 
   return (
     <>
       {/* Gallery Grid */}
-      <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[500px] rounded-2xl overflow-hidden">
+      <div className="grid grid-cols-4 grid-rows-2 gap-1 xs:gap-2 h-64 xs:h-80 sm:h-96 md:h-[500px] rounded-xl xs:rounded-2xl overflow-hidden">
         {/* Main Image */}
         <div className="col-span-2 row-span-2 relative group cursor-pointer">
           <Image
@@ -90,15 +90,16 @@ export default function PropertyGallery({ images, name }: PropertyGalleryProps) 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center cursor-pointer"
             onClick={closeLightbox}
+            onTouchEnd={closeLightbox}
           >
             {/* Close Button */}
             <button
               onClick={closeLightbox}
-              className="absolute top-4 right-4 p-2 text-white hover:bg-white/10 rounded-full transition-colors z-10"
+              className="absolute top-2 xs:top-3 sm:top-6 right-2 xs:right-3 sm:right-6 p-2 xs:p-2.5 sm:p-3 text-white bg-white/20 hover:bg-white/30 rounded-full transition-all duration-300 z-[200] flex-shrink-0 shadow-lg"
             >
-              <X className="w-8 h-8" />
+              <X className="w-6 h-6 xs:w-6 xs:h-6 sm:w-7 sm:h-7" />
             </button>
 
             {/* Navigation Buttons */}
@@ -107,9 +108,9 @@ export default function PropertyGallery({ images, name }: PropertyGalleryProps) 
                 e.stopPropagation()
                 prevImage()
               }}
-              className="absolute left-4 p-2 text-white hover:bg-white/10 rounded-full transition-colors z-10"
+              className="absolute left-2 xs:left-3 sm:left-4 p-1.5 xs:p-2 sm:p-2 text-white hover:bg-white/10 rounded-full transition-colors z-10"
             >
-              <ChevronLeft className="w-8 h-8" />
+              <ChevronLeft className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8" />
             </button>
 
             <button
@@ -117,13 +118,13 @@ export default function PropertyGallery({ images, name }: PropertyGalleryProps) 
                 e.stopPropagation()
                 nextImage()
               }}
-              className="absolute right-4 p-2 text-white hover:bg-white/10 rounded-full transition-colors z-10"
+              className="absolute right-2 xs:right-3 sm:right-4 p-1.5 xs:p-2 sm:p-2 text-white hover:bg-white/10 rounded-full transition-colors z-10"
             >
-              <ChevronRight className="w-8 h-8" />
+              <ChevronRight className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8" />
             </button>
 
             {/* Image Counter */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-white">
+            <div className="absolute bottom-3 xs:bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-3 xs:px-4 py-1.5 xs:py-2 rounded-full text-white text-xs xs:text-sm">
               {selectedImage + 1} / {images.length}
             </div>
 
@@ -134,8 +135,9 @@ export default function PropertyGallery({ images, name }: PropertyGalleryProps) 
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="relative w-full h-full max-w-6xl max-h-[90vh] mx-4"
+              className="relative w-full h-full max-w-4xl xs:max-w-5xl sm:max-w-6xl max-h-[85vh] xs:max-h-[88vh] sm:max-h-[90vh] mx-2 xs:mx-3 sm:mx-4 pointer-events-none"
               onClick={(e) => e.stopPropagation()}
+              onTouchEnd={(e) => e.stopPropagation()}
             >
               <Image
                 src={images[selectedImage]}

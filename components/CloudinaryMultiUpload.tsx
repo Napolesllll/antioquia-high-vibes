@@ -2,7 +2,7 @@
 
 import { CldUploadWidget } from 'next-cloudinary'
 import { useState } from 'react'
-import { Upload, X, Trash2 } from 'lucide-react'
+import { Upload, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 
 interface CloudinaryMultiUploadProps {
@@ -17,18 +17,16 @@ export default function CloudinaryMultiUpload({
   currentImages = [],
 }: CloudinaryMultiUploadProps) {
   const [images, setImages] = useState<string[]>(currentImages)
-  const [isUploading, setIsUploading] = useState(false)
   const MAX_IMAGES = 20
 
   const handleUpload = (result: any) => {
-    setIsUploading(true)
-
     if (result.event === 'success') {
-      const imageUrl = result.info.secure_url
-      const newImages = [...images, imageUrl]
-      setImages(newImages)
-      onImagesUpload(newImages)
-      setIsUploading(false)
+      setImages((prevImages) => {
+        const imageUrl = result.info.secure_url
+        const newImages = [...prevImages, imageUrl]
+        onImagesUpload(newImages)
+        return newImages
+      })
     }
   }
 
@@ -44,33 +42,28 @@ export default function CloudinaryMultiUpload({
       <CldUploadWidget
         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
         onSuccess={handleUpload}
+        options={{
+          multiple: true,
+          maxFiles: MAX_IMAGES - images.length,
+        }}
       >
         {({ open }) => (
           <button
             type="button"
             onClick={() => open?.()}
-            disabled={isUploading || images.length >= MAX_IMAGES || !open}
+            disabled={images.length >= MAX_IMAGES || !open}
             className="w-full border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-primary-500 dark:hover:border-primary-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <div className="flex flex-col items-center space-y-2">
-              {isUploading ? (
-                <>
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-                  <span className="text-gray-600 dark:text-gray-400 text-sm">
-                    Subiendo...
-                  </span>
-                </>
-              ) : (
-                <>
-                  <Upload className="w-8 h-8 text-gray-400" />
-                  <span className="text-gray-600 dark:text-gray-400 text-sm">
-                    {images.length >= MAX_IMAGES ? 'Límite de 20 imágenes alcanzado' : placeholder}
-                  </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-500">
-                    {images.length > 0 && `${images.length}/${MAX_IMAGES} imagen${images.length !== 1 ? 'es' : ''} cargada${images.length !== 1 ? 's' : ''}`}
-                  </span>
-                </>
-              )}
+              <>
+                <Upload className="w-8 h-8 text-gray-400" />
+                <span className="text-gray-600 dark:text-gray-400 text-sm">
+                  {images.length >= MAX_IMAGES ? 'Límite de 20 imágenes alcanzado' : placeholder}
+                </span>
+                <span className="text-xs text-gray-500 dark:text-gray-500">
+                  {images.length > 0 && `${images.length}/${MAX_IMAGES} imagen${images.length !== 1 ? 'es' : ''} cargada${images.length !== 1 ? 's' : ''}`}
+                </span>
+              </>
             </div>
           </button>
         )}

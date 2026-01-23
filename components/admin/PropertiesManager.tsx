@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Plus, Trash2, Edit2, Loader2, AlertCircle, CheckCircle } from 'lucide-react'
+import { Plus, Trash2, Edit2, Loader2, AlertCircle, CheckCircle, X } from 'lucide-react'
 import CloudinaryUpload from '@/components/CloudinaryUpload'
 import CloudinaryMultiUpload from '@/components/CloudinaryMultiUpload'
 
@@ -324,18 +324,28 @@ export default function PropertiesManager() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 xs:p-4 overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 xs:p-3 sm:p-4 overflow-y-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white dark:bg-gray-800 rounded-lg xs:rounded-2xl shadow-2xl max-w-2xl w-full p-4 xs:p-6 space-y-4 xs:space-y-6 my-4 xs:my-8"
+            className="bg-white dark:bg-gray-800 rounded-xl xs:rounded-2xl shadow-2xl w-full max-w-sm xs:max-w-md sm:max-w-lg md:max-w-2xl p-3 xs:p-4 sm:p-6 space-y-3 xs:space-y-4 sm:space-y-6 max-h-[95vh] overflow-y-auto my-2 xs:my-4 relative"
           >
-            <h2 className="text-xl xs:text-2xl font-bold text-gray-900 dark:text-white">
-              {editingId ? 'Editar Finca' : 'Crear Nueva Finca'}
-            </h2>
+            <div className="flex items-center justify-between sticky top-0 bg-white dark:bg-gray-800 pb-1 xs:pb-2 -mx-3 xs:-mx-4 sm:-mx-6 px-3 xs:px-4 sm:px-6 mb-2 xs:mb-3 sm:mb-4">
+              <h2 className="text-lg xs:text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                {editingId ? 'Editar Finca' : 'Crear Nueva Finca'}
+              </h2>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="flex-shrink-0 w-8 h-8 xs:w-10 xs:h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-all duration-200"
+                aria-label="Cerrar modal"
+              >
+                <X className="w-5 h-5 xs:w-6 xs:h-6 text-gray-600 dark:text-gray-400" />
+              </button>
+            </div>
 
-            <form onSubmit={handleSubmit} className="space-y-3 xs:space-y-4 max-h-96 overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 xs:gap-4">
+            <form onSubmit={handleSubmit} className="space-y-2.5 xs:space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 xs:gap-3 sm:gap-4">
                 <div>
                   <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
                     Pueblo
@@ -344,7 +354,7 @@ export default function PropertiesManager() {
                     name="categoryId"
                     value={formData.categoryId}
                     onChange={handleChange}
-                    className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
+                    className="w-full px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                     disabled={isLoading}
                   >
                     {categories.map(cat => (
@@ -363,7 +373,7 @@ export default function PropertiesManager() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Ej: Casa Rural Bella Vista"
-                    className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
+                    className="w-full px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                     disabled={isLoading}
                   />
                 </div>
@@ -378,7 +388,7 @@ export default function PropertiesManager() {
                     value={formData.location}
                     onChange={handleChange}
                     placeholder="Dirección completa"
-                    className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
+                    className="w-full px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                     disabled={isLoading}
                   />
                 </div>
@@ -395,7 +405,7 @@ export default function PropertiesManager() {
                     placeholder="0"
                     min="0"
                     step="1000"
-                    className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
+                    className="w-full px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                     disabled={isLoading}
                   />
                 </div>
@@ -410,13 +420,13 @@ export default function PropertiesManager() {
                     value={formData.capacity}
                     onChange={handleChange}
                     min="1"
-                    className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
+                    className="w-full px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
                     disabled={isLoading}
                   />
                 </div>
 
-                <div className="flex items-start md:items-end md:col-span-2 lg:col-span-1">
-                  <label className="flex items-center gap-2 xs:gap-2 cursor-pointer">
+                <div className="sm:col-span-2">
+                  <label className="flex items-center gap-2 xs:gap-2.5 cursor-pointer">
                     <input
                       type="checkbox"
                       name="featured"
@@ -432,8 +442,8 @@ export default function PropertiesManager() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
+              <div className="space-y-2 xs:space-y-2.5">
+                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300">
                   Descripción
                 </label>
                 <textarea
@@ -441,14 +451,14 @@ export default function PropertiesManager() {
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Describe la finca detalladamente"
-                  rows={3}
-                  className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
+                  rows={2}
+                  className="w-full px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm resize-none"
                   disabled={isLoading}
                 />
               </div>
 
-              <div>
-                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
+              <div className="space-y-2 xs:space-y-2.5">
+                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300">
                   Amenidades (separadas por comas)
                 </label>
                 <textarea
@@ -457,45 +467,47 @@ export default function PropertiesManager() {
                   onChange={handleChange}
                   placeholder="WiFi, Piscina, Jardín, Cocina, etc."
                   rows={2}
-                  className="w-full px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm"
+                  className="w-full px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs xs:text-sm resize-none"
                   disabled={isLoading}
                 />
               </div>
 
-              <div>
-                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 xs:mb-2">
+              <div className="space-y-2 xs:space-y-2.5">
+                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300">
                   Imágenes de la Finca
                 </label>
-                <CloudinaryMultiUpload
-                  onImagesUpload={(urls) => {
-                    setFormData(prev => ({ ...prev, images: urls }))
-                  }}
-                  placeholder="Sube las imágenes de la finca"
-                  currentImages={Array.isArray(formData.images) ? formData.images : []}
-                />
+                <div className="rounded-lg border border-gray-300 dark:border-gray-600 p-2 xs:p-3">
+                  <CloudinaryMultiUpload
+                    onImagesUpload={(urls) => {
+                      setFormData(prev => ({ ...prev, images: urls }))
+                    }}
+                    placeholder="Sube las imágenes de la finca"
+                    currentImages={Array.isArray(formData.images) ? formData.images : []}
+                  />
+                </div>
               </div>
 
-              <div className="flex gap-2 xs:gap-3 pt-3 xs:pt-4">
+              <div className="flex gap-2 xs:gap-3 pt-2 xs:pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700">
                 <button
                   type="button"
                   onClick={resetForm}
                   disabled={isLoading}
-                  className="flex-1 px-3 xs:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition disabled:opacity-50 text-xs xs:text-sm"
+                  className="flex-1 px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition disabled:opacity-50 text-xs xs:text-sm whitespace-nowrap"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="flex-1 flex items-center justify-center gap-1.5 xs:gap-2 bg-gradient-tropical text-white font-medium rounded-lg hover:shadow-lg transition disabled:opacity-50 px-3 xs:px-4 py-1.5 xs:py-2 text-xs xs:text-sm"
+                  className="flex-1 flex items-center justify-center gap-1.5 xs:gap-2 bg-gradient-tropical text-white font-medium rounded-lg hover:shadow-lg transition disabled:opacity-50 px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 text-xs xs:text-sm whitespace-nowrap"
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="w-3.5 h-3.5 xs:w-4 xs:h-4 animate-spin" />
-                      <span className="hidden xs:inline">Guardando...</span>
+                      <Loader2 className="w-3 h-3 xs:w-3.5 xs:h-3.5 animate-spin" />
+                      <span className="hidden xs:inline text-xs">Guardando</span>
                     </>
                   ) : (
-                    <span>{editingId ? 'Actualizar' : 'Crear'}</span>
+                    <span className="text-xs xs:text-sm">{editingId ? 'Actualizar' : 'Crear'}</span>
                   )}
                 </button>
               </div>

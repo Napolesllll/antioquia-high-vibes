@@ -185,28 +185,28 @@ export default async function DestinationsPage() {
                   </div>
 
                   {/* Contenido */}
-                  <div className="p-4 xs:p-6 space-y-3 xs:space-y-4">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="flex items-center gap-1.5 xs:gap-2 mb-1.5 xs:mb-2">
-                          <MapPin className="w-3.5 h-3.5 xs:w-4 xs:h-4 text-primary-500 flex-shrink-0" />
-                          <span className="text-primary-600 dark:text-primary-400 font-bold text-xs xs:text-sm">
-                            PUEBLO DE ANTIOQUIA
+                  <div className="p-3 xs:p-4 sm:p-6 space-y-2 xs:space-y-3 sm:space-y-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5 xs:gap-2 mb-1 xs:mb-2">
+                          <MapPin className="w-3 h-3 xs:w-3.5 xs:h-3.5 text-primary-500 flex-shrink-0" />
+                          <span className="text-primary-600 dark:text-primary-400 font-bold text-xs">
+                            PUEBLO
                           </span>
                         </div>
-                        <h3 className="text-xl xs:text-2xl sm:text-3xl font-black text-gray-900 dark:text-white line-clamp-1">
+                        <h3 className="text-base xs:text-lg sm:text-2xl md:text-3xl font-black text-gray-900 dark:text-white line-clamp-1">
                           {category.name}
                         </h3>
                       </div>
                       {category._count.properties > 5 && (
-                        <div className="flex items-center gap-1 bg-gradient-to-r from-gold-500/20 to-amber-500/20 px-2 py-1 rounded-lg">
-                          <Star className="w-3 h-3 text-gold-600 dark:text-gold-400 fill-gold-400" />
-                          <span className="text-xs font-bold text-gold-700 dark:text-gold-300">Destacado</span>
+                        <div className="flex items-center gap-0.5 bg-gradient-to-r from-gold-500/20 to-amber-500/20 px-1.5 xs:px-2 py-0.5 xs:py-1 rounded-lg flex-shrink-0">
+                          <Star className="w-2.5 h-2.5 xs:w-3 xs:h-3 text-gold-600 dark:text-gold-400 fill-gold-400" />
+                          <span className="text-xs font-bold text-gold-700 dark:text-gold-300 hidden xs:inline">Destacado</span>
                         </div>
                       )}
                     </div>
 
-                    <p className="text-gray-600 dark:text-gray-400 text-sm xs:text-base leading-relaxed line-clamp-2">
+                    <p className="text-gray-600 dark:text-gray-400 text-xs xs:text-sm leading-relaxed line-clamp-2">
                       {category.description}
                     </p>
 
@@ -214,11 +214,11 @@ export default async function DestinationsPage() {
                     <div className="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent"></div>
 
                     {/* Botón de acción */}
-                    <div className="pt-1 xs:pt-2">
-                      <div className="relative overflow-hidden bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-bold py-3 xs:py-4 px-4 xs:px-6 rounded-xl transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary-500/25">
+                    <div className="pt-1">
+                      <div className="relative overflow-hidden bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-bold py-2 xs:py-2.5 sm:py-3 px-3 xs:px-4 sm:px-6 rounded-lg xs:rounded-xl transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary-500/25">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm xs:text-base">Explorar destino</span>
-                          <ChevronRight className="w-4 h-4 xs:w-5 xs:h-5 transform group-hover:translate-x-1.5 transition-transform duration-300" />
+                          <span className="text-xs xs:text-sm">Explorar</span>
+                          <ChevronRight className="w-3.5 h-3.5 xs:w-4 xs:h-4 transform group-hover:translate-x-1 transition-transform duration-300" />
                         </div>
                         <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
                       </div>
@@ -278,38 +278,38 @@ export default async function DestinationsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 sm:gap-8">
-            <div className="bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-800/95 dark:to-gray-800/90 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 xs:p-8 border border-white/50 dark:border-gray-700/50 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
-              <div className="w-12 h-12 xs:w-14 xs:h-14 bg-gradient-to-r from-emerald-500/20 to-green-500/20 rounded-xl flex items-center justify-center mb-4 xs:mb-6">
+            <div className="bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-800/95 dark:to-gray-800/90 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-4 xs:p-6 sm:p-8 border border-white/50 dark:border-gray-700/50 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
+              <div className="w-12 h-12 xs:w-14 xs:h-14 bg-gradient-to-r from-emerald-500/20 to-green-500/20 rounded-xl flex items-center justify-center mb-3 xs:mb-4 sm:mb-6">
                 <Trees className="w-6 h-6 xs:w-7 xs:h-7 text-emerald-600 dark:text-emerald-400" />
               </div>
-              <h3 className="text-xl xs:text-2xl font-black text-gray-900 dark:text-white mb-3 xs:mb-4">
+              <h3 className="text-lg xs:text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2.5 xs:mb-3 sm:mb-4">
                 Naturaleza Pura
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm xs:text-base leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-400 text-xs xs:text-sm sm:text-base leading-relaxed">
                 Espacios rodeados de paisajes naturales espectaculares, donde podrás conectar con la tranquilidad y belleza de Antioquia.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-800/95 dark:to-gray-800/90 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 xs:p-8 border border-white/50 dark:border-gray-700/50 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
-              <div className="w-12 h-12 xs:w-14 xs:h-14 bg-gradient-to-r from-primary-500/20 to-ocean-500/20 rounded-xl flex items-center justify-center mb-4 xs:mb-6">
+            <div className="bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-800/95 dark:to-gray-800/90 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-4 xs:p-6 sm:p-8 border border-white/50 dark:border-gray-700/50 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
+              <div className="w-12 h-12 xs:w-14 xs:h-14 bg-gradient-to-r from-primary-500/20 to-ocean-500/20 rounded-xl flex items-center justify-center mb-3 xs:mb-4 sm:mb-6">
                 <Home className="w-6 h-6 xs:w-7 xs:h-7 text-primary-600 dark:text-primary-400" />
               </div>
-              <h3 className="text-xl xs:text-2xl font-black text-gray-900 dark:text-white mb-3 xs:mb-4">
+              <h3 className="text-lg xs:text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2.5 xs:mb-3 sm:mb-4">
                 Fincas Únicas
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm xs:text-base leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-400 text-xs xs:text-sm sm:text-base leading-relaxed">
                 Propiedades especialmente seleccionadas por su arquitectura, comodidades y ubicación privilegiada para tu máximo confort.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-800/95 dark:to-gray-800/90 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-6 xs:p-8 border border-white/50 dark:border-gray-700/50 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
-              <div className="w-12 h-12 xs:w-14 xs:h-14 bg-gradient-to-r from-gold-500/20 to-amber-500/20 rounded-xl flex items-center justify-center mb-4 xs:mb-6">
+            <div className="bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-800/95 dark:to-gray-800/90 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-4 xs:p-6 sm:p-8 border border-white/50 dark:border-gray-700/50 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
+              <div className="w-12 h-12 xs:w-14 xs:h-14 bg-gradient-to-r from-gold-500/20 to-amber-500/20 rounded-xl flex items-center justify-center mb-3 xs:mb-4 sm:mb-6">
                 <Star className="w-6 h-6 xs:w-7 xs:h-7 text-gold-600 dark:text-gold-400 fill-gold-400" />
               </div>
-              <h3 className="text-xl xs:text-2xl font-black text-gray-900 dark:text-white mb-3 xs:mb-4">
+              <h3 className="text-lg xs:text-xl sm:text-2xl font-black text-gray-900 dark:text-white mb-2.5 xs:mb-3 sm:mb-4">
                 Experiencias Premium
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm xs:text-base leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-400 text-xs xs:text-sm sm:text-base leading-relaxed">
                 Crea momentos mágicos con familia y amigos en escenarios diseñados para experiencias inolvidables y memorables.
               </p>
             </div>
@@ -319,31 +319,31 @@ export default async function DestinationsPage() {
 
       {/* CTA Final */}
       <div className="max-w-8xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8 pb-16 xs:pb-20 sm:pb-24">
-        <div className="bg-gradient-to-r from-primary-500/10 to-ocean-500/10 rounded-2xl sm:rounded-3xl p-8 xs:p-10 sm:p-12 md:p-16 text-center relative overflow-hidden">
+        <div className="bg-gradient-to-r from-primary-500/10 to-ocean-500/10 rounded-2xl sm:rounded-3xl p-6 xs:p-8 sm:p-12 md:p-16 text-center relative overflow-hidden">
           {/* Efectos de fondo */}
           <div className="absolute top-0 left-0 w-32 h-32 xs:w-40 xs:h-40 bg-primary-500/5 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-40 h-40 xs:w-48 xs:h-48 bg-ocean-500/5 rounded-full blur-3xl"></div>
           
           <div className="relative z-10">
-            <h3 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4 xs:mb-6">
+            <h3 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-3 xs:mb-4 sm:mb-6">
               ¿Listo para tu próxima{' '}
               <span className="bg-gradient-to-r from-primary-600 to-ocean-600 bg-clip-text text-transparent">
                 aventura?
               </span>
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm xs:text-base sm:text-lg mb-8 xs:mb-12 max-w-2xl mx-auto">
+            <p className="text-gray-600 dark:text-gray-400 text-xs xs:text-sm sm:text-base md:text-lg mb-6 xs:mb-8 sm:mb-12 max-w-2xl mx-auto">
               Encuentra el destino perfecto para tu escapada y comienza a planificar momentos inolvidables
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 xs:gap-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 xs:gap-4 sm:gap-6 justify-center">
               <Link
                 href="/properties"
-                className="bg-gradient-to-r from-primary-500 to-primary-600 text-white font-bold px-6 xs:px-8 py-3.5 xs:py-4 rounded-xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 text-sm xs:text-base"
+                className="bg-gradient-to-r from-primary-500 to-primary-600 text-white font-bold px-4 xs:px-6 sm:px-8 py-2.5 xs:py-3 sm:py-4 rounded-xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 text-xs xs:text-sm sm:text-base"
               >
                 Explorar Todas las Fincas
               </Link>
               <Link
                 href="/contact"
-                className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg text-gray-900 dark:text-white font-bold px-6 xs:px-8 py-3.5 xs:py-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary-500 transition-all duration-300 text-sm xs:text-base"
+                className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg text-gray-900 dark:text-white font-bold px-4 xs:px-6 sm:px-8 py-2.5 xs:py-3 sm:py-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary-500 transition-all duration-300 text-xs xs:text-sm sm:text-base"
               >
                 Necesito Ayuda
               </Link>
