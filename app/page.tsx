@@ -41,6 +41,7 @@ export default async function HomePage() {
       <FeaturedProperties 
         properties={properties.map(prop => ({
           ...prop,
+          description: prop.description || '',
           createdAt: prop.createdAt.toISOString(),
           updatedAt: prop.updatedAt.toISOString(),
           category: prop.category ? {
