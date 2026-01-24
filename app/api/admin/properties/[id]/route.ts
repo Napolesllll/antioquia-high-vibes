@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
+import { revalidatePath } from 'next/cache'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
@@ -74,6 +75,9 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     await prisma.property.delete({
       where: { id },
     })
+
+    // Revalidar la caché de la página principal
+    revalidatePath('/')
 
     return NextResponse.json({ message: 'Propiedad eliminada' })
   } catch (error) {
