@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { Search, MapPin, Calendar, Users, Sparkles, ChevronDown, Zap } from 'lucide-react'
+import { Search, MapPin, Calendar, Users, Sparkles, ChevronDown, Zap, ArrowDown } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -114,23 +114,23 @@ export default function Hero() {
         <div className="space-y-3 xs:space-y-4 sm:space-y-6 mb-8 sm:mb-12 md:mb-16 px-2">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary-500/20 to-ocean-500/20 backdrop-blur-lg px-4 py-2 rounded-full border border-primary-400/30 mb-2">
             <Sparkles className="w-4 h-4 xs:w-5 xs:h-5 text-primary-300 animate-pulse" />
-            <span className="text-primary-200 font-bold text-xs xs:text-sm tracking-wider">
+            <span className="text-gray-900 dark:text-primary-200 font-bold text-xs xs:text-sm tracking-wider">
               EXPERIENCIAS ÚNICAS
             </span>
           </div>
 
-          <p className="text-base xs:text-lg sm:text-xl md:text-2xl text-white/95 max-w-3xl mx-auto font-medium animate-fade-in-up tracking-wide" style={{ animationDelay: '0.1s' }}>
+          <p className="text-base xs:text-lg sm:text-xl md:text-2xl text-gray-900 dark:text-white/95 max-w-3xl mx-auto font-medium animate-fade-in-up tracking-wide" style={{ animationDelay: '0.1s' }}>
             No te alquilamos fincas…
           </p>
 
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white max-w-4xl mx-auto animate-fade-in-up leading-tight sm:leading-snug px-2" style={{ animationDelay: '0.2s' }}>
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white max-w-4xl mx-auto animate-fade-in-up leading-tight sm:leading-snug px-2" style={{ animationDelay: '0.2s' }}>
             Te ofrecemos espacios para crear{' '}
             <span className="bg-gradient-to-r from-primary-300 via-white to-ocean-300 bg-clip-text text-transparent block xs:inline mt-2 xs:mt-0">
               momentos inolvidables
             </span>
           </h1>
 
-          <p className="text-sm xs:text-base sm:text-lg text-white/80 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+          <p className="text-sm xs:text-base sm:text-lg text-gray-700 dark:text-white/80 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             Descubre los pueblos mágicos de Antioquia y vive experiencias exclusivas en fincas cuidadosamente seleccionadas
           </p>
         </div>
@@ -290,9 +290,9 @@ export default function Hero() {
         {/* Indicador de scroll */}
         <div className="mt-8 sm:mt-12 md:mt-16 animate-bounce">
           <div className="inline-flex flex-col items-center gap-2">
-            <span className="text-white/70 text-xs xs:text-sm font-medium tracking-wider">EXPLORA MÁS</span>
-            <div className="w-10 h-16 xs:w-12 xs:h-20 border-2 border-white/40 rounded-2xl flex justify-center items-start p-2 backdrop-blur-sm bg-white/5">
-              <div className="w-1.5 h-3 bg-gradient-to-b from-white to-white/60 rounded-full animate-pulse"></div>
+            <span className="text-gray-900 dark:text-white/70 text-xs xs:text-sm font-medium tracking-wider">EXPLORA MÁS</span>
+            <div className="w-10 h-16 xs:w-12 xs:h-20 border-2 border-gray-900/40 dark:border-white/40 rounded-2xl flex justify-center items-start p-2 backdrop-blur-sm bg-white/5">
+              <div className="w-1.5 h-3 bg-gradient-to-b from-gray-900 to-gray-900/60 dark:from-white dark:to-white/60 rounded-full animate-pulse"></div>
             </div>
           </div>
         </div>
