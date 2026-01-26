@@ -26,11 +26,17 @@ async function getProperties() {
       category: true,
     },
     orderBy: { createdAt: 'desc' },
+    take: 100,
   })
+}
+
+async function getTotalProperties() {
+  return prisma.property.count()
 }
 
 export default async function PropertiesPage() {
   const properties = await getProperties()
+  const total = await getTotalProperties()
 
   // Calcular estadísticas
   const stats = {
@@ -365,6 +371,22 @@ export default async function PropertiesPage() {
                   <span className="text-sm xs:text-base">Solicitar Finca</span>
                 </Link>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Paginación - Mostramos todas si hay menos de 100 */}
+        {properties.length > 0 && (
+          <div className="mt-12 xs:mt-16 sm:mt-20 text-center">
+            <div className="inline-block bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-xl px-6 py-4 shadow-lg border border-gray-200/50 dark:border-gray-700/50">
+              <p className="text-sm xs:text-base text-gray-600 dark:text-gray-400">
+                Mostrando <span className="font-bold text-gray-900 dark:text-white">{properties.length}</span> de <span className="font-bold text-gray-900 dark:text-white">{total}</span> fincas
+              </p>
+              {total > properties.length && (
+                <p className="text-xs text-primary-600 dark:text-primary-400 mt-2">
+                  Más fincas disponibles próximamente
+                </p>
+              )}
             </div>
           </div>
         )}

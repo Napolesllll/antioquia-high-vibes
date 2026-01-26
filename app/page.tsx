@@ -18,7 +18,6 @@ async function getHomeData() {
     }),
     prisma.property.findMany({
       where: { featured: true },
-      take: 6,
       include: {
         category: true,
       },
