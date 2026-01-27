@@ -1,29 +1,96 @@
 'use client'
 
 import Image from 'next/image'
-import { Search, MapPin, Calendar, Users, Sparkles, ChevronDown, Zap, ArrowDown } from 'lucide-react'
+import { Search, MapPin, Calendar, Users, Sparkles, ChevronDown, Zap, ArrowDown, AlertCircle } from 'lucide-react'
 import { useState, useMemo, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
+const searchSchema = z.object({
+  location: z.string().min(0),
+  checkIn: z.string().min(1, 'Selecciona la fecha de llegada'),
+  checkOut: z.string().min(1, 'Selecciona la fecha de salida'),
+  guests: z.string().min(1, 'Selecciona número de huéspedes'),
+}).refine((data) => {
+  if (data.checkIn && data.checkOut) {
+    return new Date(data.checkOut) > new Date(data.checkIn)
+  }
+  return true
+}, {
+  message: 'La fecha de salida debe ser posterior a la de llegada',
+  path: ['checkOut']
+})
+
+type SearchFormData = z.infer<typeof searchSchema>
+
+const ANTIOQUIA_DESTINATIONS = [
+  'Jardín',
+  'Guatapé',
+  'Jericó',
+  'Santa Fe de Antioquia',
+  'Pueblo Rico',
+  'Salento',
+  'Cocora',
+  'Penol',
+  'Otro',
+]
 
 export default function Hero() {
   const router = useRouter()
-  const [searchParams, setSearchParams] = useState({
-    location: '',
-    checkIn: '',
-    checkOut: '',
-    guests: '2',
-  })
+  const searchParams = useSearchParams()
   const [mounted, setMounted] = useState(false)
+  const [showLocationDropdown, setShowLocationDropdown] = useState(false)
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm<SearchFormData>({
+    resolver: zodResolver(searchSchema),
+    defaultValues: {
+      location: '',
+      guests: '2',
+    },
+  })
+
+  const checkInValue = watch('checkIn')
+  const checkOutValue = watch('checkOut')
+  const locationValue = watch('location')
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+    // Cargar parámetros de búsqueda si existen
+    const location = searchParams.get('location') || ''
+    const checkIn = searchParams.get('checkIn') || ''
+    const checkOut = searchParams.get('checkOut') || ''
+    const guests = searchParams.get('guests') || '2'
+
+    if (location) setValue('location', location)
+    if (checkIn) setValue('checkIn', checkIn)
+    if (checkOut) setValue('checkOut', checkOut)
+    if (guests) setValue('guests', guests)
+  }, [searchParams, setValue])
 
   // Calcular fechas mínimas y máximas
   const today = new Date().toISOString().split('T')[0]
+  const tomorrow = new Date(new Date().getTime() + 86400000).toISOString().split('T')[0]
   const maxDate = new Date()
   maxDate.setFullYear(maxDate.getFullYear() + 1)
   const maxDateString = maxDate.toISOString().split('T')[0]
+
+  const handleSearch = (data: SearchFormData) => {
+    const queryParams = new URLSearchParams()
+    if (data.location) queryParams.set('location', data.location)
+    if (data.checkIn) queryParams.set('checkIn', data.checkIn)
+    if (data.checkOut) queryParams.set('checkOut', data.checkOut)
+    if (data.guests) queryParams.set('guests', data.guests)
+    
+    router.push(`/properties?${queryParams.toString()}`)
+  }
 
   const particles = useMemo(() => 
     [...Array(30)].map((_, i) => ({
@@ -36,17 +103,6 @@ export default function Hero() {
     })),
     []
   )
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    const queryParams = new URLSearchParams()
-    if (searchParams.location) queryParams.set('location', searchParams.location)
-    if (searchParams.checkIn) queryParams.set('checkIn', searchParams.checkIn)
-    if (searchParams.checkOut) queryParams.set('checkOut', searchParams.checkOut)
-    if (searchParams.guests) queryParams.set('guests', searchParams.guests)
-    
-    router.push(`/properties?${queryParams.toString()}`)
-  }
 
   if (!mounted) return null
 
@@ -138,7 +194,7 @@ export default function Hero() {
         {/* Formulario de búsqueda - Completamente rediseñado */}
         <div className="w-full max-w-4xl mx-auto px-2 xs:px-3 sm:px-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
           <form
-            onSubmit={handleSearch}
+            onSubmit={handleSubmit(handleSearch)}
             className="bg-gradient-to-br from-white/95 to-white/90 dark:from-gray-800/95 dark:to-gray-800/90 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl p-4 xs:p-5 sm:p-6 md:p-8 border border-white/40 dark:border-white/10 transition-all duration-500 hover:shadow-3xl"
           >
             <div className="grid grid-cols-1 gap-4 xs:gap-5 sm:gap-6">
@@ -154,15 +210,38 @@ export default function Hero() {
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center">
                     <MapPin className="w-5 h-5 text-primary-500 transition-colors group-focus-within:text-primary-600" />
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Ej: Jardín, Guatapé, Jericó..."
-                    value={searchParams.location}
-                    onChange={(e) =>
-                      setSearchParams({ ...searchParams, location: e.target.value })
-                    }
-                    className="w-full pl-12 pr-4 py-3 xs:py-4 text-base bg-white/80 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-4 focus:ring-primary-400/30 focus:border-primary-400 transition-all duration-300"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Ej: Jardín, Guatapé, Jericó..."
+                      {...register('location')}
+                      onFocus={() => setShowLocationDropdown(true)}
+                      onBlur={() => setTimeout(() => setShowLocationDropdown(false), 200)}
+                      className="w-full pl-12 pr-4 py-3 xs:py-4 text-base bg-white/80 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-4 focus:ring-primary-400/30 focus:border-primary-400 transition-all duration-300"
+                    />
+                    
+                    {/* Dropdown de ubicaciones */}
+                    {showLocationDropdown && (
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 border-2 border-primary-400 rounded-xl shadow-xl z-50">
+                        {ANTIOQUIA_DESTINATIONS.filter(d => 
+                          d.toLowerCase().includes(locationValue.toLowerCase()) || !locationValue
+                        ).map((destination) => (
+                          <button
+                            key={destination}
+                            type="button"
+                            onClick={() => {
+                              setValue('location', destination)
+                              setShowLocationDropdown(false)
+                            }}
+                            className="w-full text-left px-4 py-2.5 hover:bg-primary-50 dark:hover:bg-gray-700 transition-colors text-sm"
+                          >
+                            <MapPin className="w-4 h-4 inline mr-2 text-primary-500" />
+                            {destination}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 pl-1">
                   Descubre los pueblos más mágicos de Antioquia
@@ -187,13 +266,16 @@ export default function Hero() {
                       type="date"
                       min={today}
                       max={maxDateString}
-                      value={searchParams.checkIn}
-                      onChange={(e) =>
-                        setSearchParams({ ...searchParams, checkIn: e.target.value })
-                      }
+                      {...register('checkIn')}
                       className="w-full pl-12 pr-4 py-3 xs:py-4 text-base bg-white/80 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-4 focus:ring-primary-400/30 focus:border-primary-400 transition-all duration-300 cursor-pointer"
                     />
                   </div>
+                  {errors.checkIn && (
+                    <div className="flex items-center gap-1 mt-2 pl-1 text-xs text-red-500">
+                      <AlertCircle className="w-3 h-3" />
+                      {errors.checkIn.message}
+                    </div>
+                  )}
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 pl-1">
                     Selecciona el día de tu llegada a la finca
                   </p>
@@ -213,15 +295,22 @@ export default function Hero() {
                     </div>
                     <input
                       type="date"
-                      min={searchParams.checkIn || today}
+                      min={checkInValue || today}
                       max={maxDateString}
-                      value={searchParams.checkOut}
-                      onChange={(e) =>
-                        setSearchParams({ ...searchParams, checkOut: e.target.value })
-                      }
-                      className="w-full pl-12 pr-4 py-3 xs:py-4 text-base bg-white/80 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-4 focus:ring-primary-400/30 focus:border-primary-400 transition-all duration-300 cursor-pointer"
+                      {...register('checkOut')}
+                      className={`w-full pl-12 pr-4 py-3 xs:py-4 text-base bg-white/80 dark:bg-gray-700/50 border-2 rounded-xl focus:ring-4 focus:ring-primary-400/30 transition-all duration-300 cursor-pointer ${
+                        errors.checkOut 
+                          ? 'border-red-400 focus:border-red-400' 
+                          : 'border-gray-200 dark:border-gray-600 focus:border-primary-400'
+                      }`}
                     />
                   </div>
+                  {errors.checkOut && (
+                    <div className="flex items-center gap-1 mt-2 pl-1 text-xs text-red-500">
+                      <AlertCircle className="w-3 h-3" />
+                      {errors.checkOut.message}
+                    </div>
+                  )}
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 pl-1">
                     Selecciona el día de tu salida de la finca
                   </p>
@@ -241,10 +330,7 @@ export default function Hero() {
                     <Users className="w-5 h-5 text-primary-500 transition-colors group-focus-within:text-primary-600" />
                   </div>
                   <select
-                    value={searchParams.guests}
-                    onChange={(e) =>
-                      setSearchParams({ ...searchParams, guests: e.target.value })
-                    }
+                    {...register('guests')}
                     className="w-full pl-12 pr-12 py-3 xs:py-4 text-base bg-white/80 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-4 focus:ring-primary-400/30 focus:border-primary-400 transition-all duration-300 appearance-none cursor-pointer"
                   >
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20].map((num) => (
@@ -266,7 +352,8 @@ export default function Hero() {
             {/* Botón de búsqueda con efectos */}
             <button
               type="submit"
-              className="w-full mt-6 xs:mt-7 sm:mt-8 group relative overflow-hidden bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-bold py-4 xs:py-5 sm:py-6 px-6 rounded-xl sm:rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 active:translate-y-0"
+              className="w-full mt-6 xs:mt-7 sm:mt-8 group relative overflow-hidden bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-bold py-4 xs:py-5 sm:py-6 px-6 rounded-xl sm:rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={Object.keys(errors).length > 0}
             >
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
               <span className="relative flex items-center justify-center gap-3 text-base xs:text-lg sm:text-xl">

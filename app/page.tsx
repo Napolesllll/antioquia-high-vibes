@@ -1,4 +1,4 @@
-import Hero from '@/components/home/Hero'
+import HeroWrapper from '@/components/home/HeroWrapper'
 import FeaturedDestinations from '@/components/home/FeaturedDestinations'
 import FeaturedProperties from '@/components/home/FeaturedProperties'
 import HowItWorks from '@/components/home/HowItWorks'
@@ -33,7 +33,7 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <Hero />
+      <HeroWrapper />
       
       <FeaturedDestinations />
       

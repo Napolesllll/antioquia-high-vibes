@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import PropertiesFilters from './PropertiesFilters'
 import PropertiesGrid from './PropertiesGrid'
-import { ArrowLeft, Home, Sparkles } from 'lucide-react'
+import { ArrowLeft, Home, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface Category {
   id: number
@@ -39,6 +39,28 @@ interface PropertiesPageContentProps {
 
 export default function PropertiesPageContent({ properties, stats }: PropertiesPageContentProps) {
   const [filteredProperties, setFilteredProperties] = useState(properties)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024)
+
+  // Detectar tamaño de pantalla
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    setWindowWidth(window.innerWidth)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const itemsPerPage = windowWidth < 768 ? 3 : 6
+  const totalPages = Math.ceil(filteredProperties.length / itemsPerPage)
+  
+  const paginatedProperties = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage
+    return filteredProperties.slice(startIndex, startIndex + itemsPerPage)
+  }, [filteredProperties, currentPage, itemsPerPage])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [filteredProperties])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50/50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900/50">
@@ -135,7 +157,74 @@ export default function PropertiesPageContent({ properties, stats }: PropertiesP
       </div>
 
       {/* Grid de propiedades */}
-      <PropertiesGrid properties={filteredProperties} />
+      <PropertiesGrid properties={paginatedProperties} />
+
+      {/* Paginación Luxury */}
+      {totalPages > 1 && (
+        <div className="max-w-8xl mx-auto px-2.5 xs:px-3 sm:px-4 md:px-6 lg:px-8 py-8 xs:py-12 sm:py-16 md:py-20">
+          <div className="flex items-center justify-center gap-2 xs:gap-3 sm:gap-4">
+            {/* Botón anterior */}
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+              className="group p-2 xs:p-2.5 sm:p-3 rounded-lg xs:rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-lg"
+            >
+              <ChevronLeft className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" />
+            </button>
+
+            {/* Números de página */}
+            <div className="flex items-center gap-1 xs:gap-1.5 sm:gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                const isCurrentPage = page === currentPage
+                const isNear = Math.abs(page - currentPage) <= 1
+                
+                if (totalPages <= 5 || isCurrentPage || isNear) {
+                  return (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`
+                        relative px-2.5 xs:px-3 sm:px-4 py-2 xs:py-2.5 sm:py-3 rounded-lg xs:rounded-xl text-xs xs:text-sm sm:text-base font-semibold transition-all duration-300
+                        ${isCurrentPage
+                          ? 'bg-gradient-to-r from-primary-600 to-ocean-600 text-white shadow-lg shadow-primary-500/50'
+                          : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-400 hover:text-primary-600 dark:hover:text-primary-400'
+                        }
+                      `}
+                    >
+                      {page}
+                    </button>
+                  )
+                } else if (isNear || (page === 2 && currentPage === 1) || (page === totalPages - 1 && currentPage === totalPages)) {
+                  return null
+                } else if (page === 2 || page === totalPages - 1) {
+                  return (
+                    <span key={`ellipsis-${page}`} className="text-gray-400 dark:text-gray-600 px-1 text-xs xs:text-sm">
+                      ...
+                    </span>
+                  )
+                }
+                return null
+              })}
+            </div>
+
+            {/* Botón siguiente */}
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+              className="group p-2 xs:p-2.5 sm:p-3 rounded-lg xs:rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary-500 dark:hover:border-primary-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-lg"
+            >
+              <ChevronRight className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" />
+            </button>
+
+            {/* Info de página */}
+            <div className="ml-2 xs:ml-3 sm:ml-4 text-xs xs:text-sm text-gray-600 dark:text-gray-400 font-medium">
+              <span className="hidden sm:inline">Página </span>
+              <span className="font-bold text-gray-900 dark:text-white">{currentPage}</span>
+              <span className="hidden sm:inline"> de {totalPages}</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
