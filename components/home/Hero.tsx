@@ -203,7 +203,7 @@ export default function Hero() {
                 <label className="block text-left text-sm xs:text-base font-semibold text-gray-700 dark:text-gray-300 mb-2 pl-1">
                   <div className="flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-primary-500" />
-                    ¿A dónde te gustaría ir?
+                    ¿A cuál de nuestros pueblos mágicos de Antioquia te gustaría viajar?
                   </div>
                 </label>
                 <div className="relative">

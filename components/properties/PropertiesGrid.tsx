@@ -80,7 +80,7 @@ export default function PropertiesGrid({ properties }: PropertiesGridProps) {
                       </div>
                       <div className="flex items-center gap-1 xs:gap-1.5 bg-black/60 backdrop-blur-sm px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full">
                         <DollarSign className="w-3 h-3 xs:w-4 xs:h-4 text-gold-300" />
-                        <span className="text-white font-bold text-xs">${(property.pricePerNight / 1000).toFixed(0)}k</span>
+                        <span className="text-white font-bold text-xs">${property.pricePerNight.toLocaleString('es-CO')}</span>
                       </div>
                     </div>
                   </div>
