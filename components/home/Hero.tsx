@@ -125,7 +125,7 @@ export default function Hero() {
 
           <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white max-w-4xl mx-auto animate-fade-in-up leading-tight sm:leading-snug px-2" style={{ animationDelay: '0.2s' }}>
             Te ofrecemos espacios para crear{' '}
-            <span className="bg-gradient-to-r from-primary-300 via-white to-ocean-300 bg-clip-text text-transparent block xs:inline mt-2 xs:mt-0">
+            <span className="bg-gradient-to-r from-primary-600 via-primary-500 to-ocean-600 dark:from-primary-300 dark:via-ocean-300 dark:to-primary-300 bg-clip-text text-transparent block xs:inline mt-2 xs:mt-0">
               momentos inolvidables
             </span>
           </h1>
