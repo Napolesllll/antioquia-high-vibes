@@ -50,6 +50,12 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       },
     })
 
+    // Revalidar los paths donde se muestran propiedades
+    revalidatePath('/properties')
+    revalidatePath('/')
+    revalidatePath('/admin/properties')
+    revalidatePath(`/properties/${slug}`)
+
     return NextResponse.json(property)
   } catch (error) {
     console.error('Property update error:', error)
@@ -76,8 +82,10 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       where: { id },
     })
 
-    // Revalidar la caché de la página principal
+    // Revalidar los paths donde se muestran propiedades
     revalidatePath('/')
+    revalidatePath('/properties')
+    revalidatePath('/admin/properties')
 
     return NextResponse.json({ message: 'Propiedad eliminada' })
   } catch (error) {
