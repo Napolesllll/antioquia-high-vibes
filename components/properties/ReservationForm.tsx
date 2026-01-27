@@ -22,16 +22,21 @@ interface ReservationFormProps {
   propertyId: number
   pricePerNight: number
   maxGuests: number
+  propertyName: string
+  propertySlug: string
 }
 
 export default function ReservationForm({
   propertyId,
   pricePerNight,
   maxGuests,
+  propertyName,
+  propertySlug,
 }: ReservationFormProps) {
   const { data: session } = useSession()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573193539046'
 
   const {
     register,
@@ -58,12 +63,6 @@ export default function ReservationForm({
   const total = subtotal + cleaningFee + serviceFee
 
   const onSubmit = async (data: ReservationFormData) => {
-    if (!session) {
-      toast.error('Debes iniciar sesión para reservar')
-      router.push('/auth/signin')
-      return
-    }
-
     if (nights < 1) {
       toast.error('La estadía debe ser de al menos 1 noche')
       return
@@ -72,28 +71,57 @@ export default function ReservationForm({
     setIsLoading(true)
 
     try {
-      const response = await fetch('/api/reservations', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          propertyId,
-          checkIn: data.checkIn,
-          checkOut: data.checkOut,
-          guests: data.guests,
-          totalPrice: total,
-        }),
+      // Formatear fechas
+      const checkInDate = new Date(data.checkIn).toLocaleDateString('es-CO', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+      const checkOutDate = new Date(data.checkOut).toLocaleDateString('es-CO', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
       })
 
-      const result = await response.json()
+      // Construir mensaje de WhatsApp
+      const propertyUrl = `${window.location.origin}/properties/${propertySlug}`
+      const message = `*Nueva Solicitud de Reserva - Antioquia High Vibes*\n\n` +
+        `*Propiedad:* ${propertyName}\n` +
+        `*Llegada:* ${checkInDate}\n` +
+        `*Salida:* ${checkOutDate}\n` +
+        `*Noches:* ${nights}\n` +
+        `*Huéspedes:* ${data.guests}\n` +
+        `*Valor/Noche:* $${(pricePerNight / 1000).toFixed(0)}k\n` +
+        `*Total:* $${(total / 1000).toFixed(0)}k\n` +
+        `*Enlace:* ${propertyUrl}`
 
-      if (!response.ok) {
-        throw new Error(result.error || 'Error al crear la reserva')
+      // Redirigir a WhatsApp
+      const encodedMessage = encodeURIComponent(message)
+      const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodedMessage}`
+      
+      window.open(whatsappUrl, '_blank')
+      toast.success('¡Redirigiendo a WhatsApp para confirmar tu reserva!')
+      
+      // También guardar la reserva en la BD si el usuario está autenticado
+      if (session) {
+        try {
+          await fetch('/api/reservations', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              propertyId,
+              checkIn: data.checkIn,
+              checkOut: data.checkOut,
+              guests: data.guests,
+              totalPrice: total,
+            }),
+          })
+        } catch (error) {
+          console.error('Error guardando reserva:', error)
+        }
       }
-
-      toast.success('¡Reserva creada exitosamente!')
-      router.push('/profile')
     } catch (error: any) {
       toast.error(error.message || 'Error al procesar la reserva')
     } finally {
@@ -107,7 +135,7 @@ export default function ReservationForm({
       <div className="mb-4 sm:mb-6">
         <div className="flex items-baseline space-x-2">
           <span className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-            ${(pricePerNight / 1000).toFixed(0)}k
+            ${pricePerNight.toLocaleString('es-CO')}
           </span>
           <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">/ noche</span>
         </div>
@@ -165,7 +193,7 @@ export default function ReservationForm({
               {...register('guests', { valueAsNumber: true })}
               className="input-field pl-8 sm:pl-10 text-xs sm:text-sm"
             >
-              {Array.from({ length: maxGuests }, (_, i) => i + 1).map((num) => (
+              {Array.from({ length: Math.max(maxGuests, 300) }, (_, i) => i + 1).map((num) => (
                 <option key={num} value={num}>
                   {num} {num === 1 ? 'Huésped' : 'Huéspedes'}
                 </option>
@@ -182,22 +210,22 @@ export default function ReservationForm({
           <div className="space-y-2 sm:space-y-3 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700">
             <div className="flex justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-400">
               <span>
-                ${(pricePerNight / 1000).toFixed(0)}k x {nights}{' '}
+                ${pricePerNight.toLocaleString('es-CO')} x {nights}{' '}
                 {nights === 1 ? 'noche' : 'noches'}
               </span>
-              <span>${(subtotal / 1000).toFixed(0)}k</span>
+              <span>${subtotal.toLocaleString('es-CO')}</span>
             </div>
             <div className="flex justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-400">
               <span>Limpieza</span>
-              <span>${(cleaningFee / 1000).toFixed(0)}k</span>
+              <span>${cleaningFee.toLocaleString('es-CO')}</span>
             </div>
             <div className="flex justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-400">
               <span>Servicio</span>
-              <span>${(serviceFee / 1000).toFixed(0)}k</span>
+              <span>${serviceFee.toLocaleString('es-CO')}</span>
             </div>
             <div className="flex justify-between text-base sm:text-lg font-bold text-gray-900 dark:text-white pt-2 sm:pt-3 border-t border-gray-200 dark:border-gray-700">
               <span>Total</span>
-              <span>${(total / 1000).toFixed(0)}k</span>
+              <span>${total.toLocaleString('es-CO')}</span>
             </div>
           </div>
         )}
@@ -214,15 +242,13 @@ export default function ReservationForm({
               Procesando...
             </>
           ) : (
-            'Reservar Ahora'
+            'Contactar por WhatsApp'
           )}
         </button>
 
-        {!session && (
-          <p className="text-xs text-center text-gray-500 dark:text-gray-400">
-            Necesitas iniciar sesión para reservar
-          </p>
-        )}
+        <p className="text-xs text-center text-gray-500 dark:text-gray-400">
+          Te redirigiremos a WhatsApp para confirmar tu reserva
+        </p>
       </form>
 
       {/* Info */}

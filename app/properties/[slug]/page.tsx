@@ -157,6 +157,8 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                 propertyId={property.id}
                 pricePerNight={property.pricePerNight}
                 maxGuests={property.capacity}
+                propertyName={property.name}
+                propertySlug={params.slug}
               />
             </div>
           </div>
