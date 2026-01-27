@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import LoadingScreen from '@/components/LoadingScreen'
 import { Providers } from './providers'
 import ConditionalNavbar from '@/components/ConditionalNavbar'
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
   title: 'Antioquia High Vibes | Espacios para momentos inolvidables',
@@ -36,6 +37,7 @@ export default function RootLayout({
         <style dangerouslySetInnerHTML={{__html: `:root { --font-poppins: system-ui, -apple-system, sans-serif; }`}} />
       </head>
       <body suppressHydrationWarning className="bg-white dark:bg-gray-900 transition-colors duration-300">
+        <Analytics />
         <Providers>
           <LoadingScreen />
           <ConditionalNavbar />
