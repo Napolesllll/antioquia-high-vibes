@@ -353,7 +353,7 @@ export default function FeaturedProperties({ properties }: FeaturedPropertiesPro
                                 <div className="absolute bottom-4 left-4 z-20">
                                   <div className="text-2xl md:text-3xl font-bold">
                                     <span className="bg-gradient-to-r from-gold-300 via-yellow-200 to-gold-300 bg-clip-text text-transparent">
-                                      ${(property.pricePerNight / 1000).toFixed(0)}k
+                                      ${property.pricePerNight.toLocaleString('es-CO')}
                                     </span>
                                   </div>
                                   <div className="text-xs text-gray-900 dark:text-gray-300">por noche</div>
