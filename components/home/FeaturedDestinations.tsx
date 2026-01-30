@@ -374,7 +374,7 @@ export default function FeaturedDestinations() {
         {/* CTA */}
         <div className="mt-12 text-center">
           <Link
-            href="/pueblos"
+            href="/destinations"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-primary-600 to-primary-700 text-white font-bold text-lg hover:from-primary-700 hover:to-primary-800 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 border border-primary-500"
           >
             <span>Descubrir Todos los Destinos</span>
